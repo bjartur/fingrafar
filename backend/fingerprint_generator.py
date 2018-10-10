@@ -21,26 +21,26 @@ class Generator():
         main.Generate.click()
         app.OpenDialog['Select sensor area and resolution'].OK.click()
 
-        dialog = main.Dialog
+        generation_form = main.Dialog
 
 
         # def randomize_slider(slider):
         #     slider.set_value(uniform(slider.min_value, slider.max_value))
 
-        dialog.Generate.click()
-        dialog.Next.click()
-        dialog.Next.click()
-        dialog.Button5.click() #Start ridge generation
-        dialog.Next.click()
+        generation_form.Generate.click()
+        generation_form.Next.click()
+        generation_form.Next.click()
+        generation_form.Button5.click() #Start ridge generation
+        generation_form.Next.click()
 
-        dialog.Next.click()
-        dialog.Next.click()
-        dialog.Next.click()
+        generation_form.Next.click()
+        generation_form.Next.click()
+        generation_form.Next.click()
 
-        dialog.Next.click()
-        dialog.Next.click()
-        dialog.Next.click()
-        dialog.Finish.click()
+        generation_form.Next.click()
+        generation_form.Next.click()
+        generation_form.Next.click()
+        generation_form.Finish.click()
 
         full_path = mktemp('.bmp')
         directory, filename = path.split(full_path)
