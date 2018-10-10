@@ -25,7 +25,7 @@ class Generator():
         generation_form.Next.click()
 
         #Step 2 - Directional map generation
-        #TODO: generation_form.Generate.click() #generate random directional map
+        generation_form.Generate.click() #generate random directional map
         #TODO: consider randomizing fingerprint class selection
         #TODO: consider randomizing randomize direction perturbation
         generation_form.Next.click()
