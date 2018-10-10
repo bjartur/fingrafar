@@ -57,6 +57,7 @@ class Generator():
         save_dialog.child_window(title="File name:", control_type="Edit")\
             .wait('visible').set_edit_text(filename)
         save_dialog.Save.click()
+        time.sleep(1)
         main.Exit.click()
 
         file = open(path.join(fg_tmp, filename), 'rb')
