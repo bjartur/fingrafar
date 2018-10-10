@@ -16,8 +16,9 @@ class Generator():
 
         #Open generation form
         main.Generate.click()
-        app.Dialog.OK.click()
+        main.Dialog.OK.click()
         generation_form = main.Dialog
+
 
         generation_form.Generate.click()
         generation_form.Next.click()
