@@ -7,8 +7,8 @@ from pywinauto import Application
 
 class Generator():
 
-    # def randomize_slider(slider):
-    #     slider.set_value(uniform(slider.min_value, slider.max_value))
+    def randomize_slider(self, slider):
+        slider.set_value(uniform(slider.min_value(), slider.max_value()))
 
     def generate(self):
         app = Application(backend='uia').start('SFinGeDemo/SFinGe.exe')
@@ -25,9 +25,12 @@ class Generator():
         generation_form.Next.click()
 
         #Step 2 - Directional map generation
+        slider = generation_form.child_window(
+            title='Direction perturbation',
+            control_type='Slider')
+        self.randomize_slider(slider)
         generation_form.Generate.click() #generate random directional map
         #TODO: consider randomizing fingerprint class selection
-        #TODO: consider randomizing randomize direction perturbation
         generation_form.Next.click()
 
         #Step 3 - Density map and ridge pattern generation
