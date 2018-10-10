@@ -60,7 +60,7 @@ class Generator():
 
         #Step 10 - Background and contrast
         #TODO: randomize background, noise, contrast and gamma
-        #TODO: generation_form.Generate.click() #generate background
+        generation_form.Generate.click() #generate background
         generation_form.Finish.click()
 
         #Save image to file
