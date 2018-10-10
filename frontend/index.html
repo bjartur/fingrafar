@@ -1,3 +1,12 @@
 <!DOCTYPE html>
 <title>Fingerprints</title>
-<img src="http://192.168.38.103">
+<img src="/fingerprint" id="fingerprinter">
+        <script>
+                onload = recurse
+                function recurse() {
+                                setTimeout(function() {
+                                        document.getElementById('fingerprinter').src = 'fingerprint'
+                                        recurse()
+                                }, 5000)
+                }
+        </script>
