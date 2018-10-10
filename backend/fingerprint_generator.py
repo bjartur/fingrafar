@@ -7,41 +7,63 @@ from pywinauto import Application
 
 class Generator():
 
-    def _init_(self):
-        pass
-
-    def bla(self):
-        self.generate()
-        #fetch image from clipboard
+    # def randomize_slider(slider):
+    #     slider.set_value(uniform(slider.min_value, slider.max_value))
 
     def generate(self):
         app = Application(backend='uia').start('SFinGeDemo/SFinGe.exe')
         main = app.Dialog
 
+        #Open generation form
         main.Generate.click()
-        app.OpenDialog['Select sensor area and resolution'].OK.click()
+        main.Dialog.OK.click()
+        generation_form = main.Dialog
 
-        dialog = main.Dialog
+        #Step 1 - Fingerprint mask generation
+        generation_form.Generate.click() #generate random mask
+        #TODO: randomize finger selection
+        generation_form.Next.click()
 
+        #Step 2 - Directional map generation
+        generation_form.Generate.click() #generate random directional map
+        #TODO: consider randomizing fingerprint class selection
+        #TODO: consider randomizing randomize direction perturbation
+        generation_form.Next.click()
 
-        # def randomize_slider(slider):
-        #     slider.set_value(uniform(slider.min_value, slider.max_value))
+        #Step 3 - Density map and ridge pattern generation
+        #TODO: randomize seeds, ridge density, and pores inclusion
+        generation_form.Button5.click() #Start ridge generation
+        generation_form.Next.click()
 
-        dialog.Generate.click()
-        dialog.Next.click()
-        dialog.Next.click()
-        dialog.Button5.click() #Start ridge generation
-        dialog.Next.click()
+        #Step 4 - Permanent scratches
+        #rendered automatically, so nothing we need to to here
+        generation_form.Next.click()
 
-        dialog.Next.click()
-        dialog.Next.click()
-        dialog.Next.click()
+        #Step 5 - Finger contact region
+        #TODO: randomize displacement and apply
+        generation_form.Next.click()
 
-        dialog.Next.click()
-        dialog.Next.click()
-        dialog.Next.click()
-        dialog.Finish.click()
+        #Step 6 - Pressure/Dryness
+        #TODO: randomize pressure and apply
+        generation_form.Next.click()
 
+        #Step 7 - Fingerprint distortion
+        #TODO: randomize rotation, translation and skin elasticity and apply
+        generation_form.Next.click()
+
+        #Step 8 - Noising and rendering
+        #TODO: randomize ridges, valleys and scratches and render
+        generation_form.Next.click()
+
+        #Step 9 - Fingerprint rotation and translation and apply
+        generation_form.Next.click()
+
+        #Step 10 - Background and contrast
+        #TODO: randomize background, noise, contrast and gamma
+        generation_form.Generate.click() #generate background
+        generation_form.Finish.click()
+
+        #Save image to file
         full_path = mktemp('.bmp')
         directory, filename = path.split(full_path)
         fg_tmp = path.join(directory, 'fingerprint_generator')
@@ -58,11 +80,12 @@ class Generator():
             .wait('visible').set_edit_text(filename)
         save_dialog.Save.click()
         time.sleep(1)
+
+        #Close application
         main.Exit.click()
 
-        file = open(path.join(fg_tmp, filename), 'rb')
-
-        return file
+        #return file handle
+        return open(path.join(fg_tmp, filename), 'rb')
 
 if __name__ == '__main__':
     Generator().generate()
