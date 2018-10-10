@@ -25,9 +25,14 @@ class Generator():
         generation_form.Next.click()
 
         #Step 2 - Directional map generation
+        comboBox = generation_form.child_window(
+            title='Fingerprint class',
+            control_type='ComboBox'
+        )
         slider = generation_form.child_window(
             title='Direction perturbation',
-            control_type='Slider')
+            control_type='Slider'
+        )
         self.randomize_slider(slider)
         generation_form.Generate.click() #generate random directional map
         #TODO: consider randomizing fingerprint class selection
