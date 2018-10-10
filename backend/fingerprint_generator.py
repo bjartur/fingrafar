@@ -7,12 +7,8 @@ from pywinauto import Application
 
 class Generator():
 
-    def _init_(self):
-        pass
-
-    def bla(self):
-        self.generate()
-        #fetch image from clipboard
+    # def randomize_slider(slider):
+    #     slider.set_value(uniform(slider.min_value, slider.max_value))
 
     def generate(self):
         app = Application(backend='uia').start('SFinGeDemo/SFinGe.exe')
@@ -20,12 +16,7 @@ class Generator():
 
         main.Generate.click()
         app.OpenDialog['Select sensor area and resolution'].OK.click()
-
         generation_form = main.Dialog
-
-
-        # def randomize_slider(slider):
-        #     slider.set_value(uniform(slider.min_value, slider.max_value))
 
         generation_form.Generate.click()
         generation_form.Next.click()
