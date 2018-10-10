@@ -14,8 +14,9 @@ class Generator():
         app = Application(backend='uia').start('SFinGeDemo/SFinGe.exe')
         main = app.Dialog
 
+        #Open generation form
         main.Generate.click()
-        app.OpenDialog['Select sensor area and resolution'].OK.click()
+        app.Dialog.OK.click()
         generation_form = main.Dialog
 
         generation_form.Generate.click()
