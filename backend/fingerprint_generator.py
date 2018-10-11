@@ -94,10 +94,14 @@ class Generator():
             control_type='Slider'
         ))
         self.randomize_slider(form.child_window(
+            auto_id='1170', #horizontal translation
+            control_type='Slider'
+        ))
+        self.randomize_slider(form.child_window(
             title='Skin Elasticity',
             control_type='Slider'
         ))
-        #TODO: randomize translation and apply
+        #TODO: apply
         form.Next.click()
 
         #Step 8 - Noising and rendering
