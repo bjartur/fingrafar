@@ -142,7 +142,11 @@ class Generator():
         form.Next.click()
 
         #Step 10 - Background and contrast
-        #TODO: randomize background, noise, contrast and gamma
+        self.randomize_slider(form.child_window(
+            title='Noise', #background noise
+            control_type='Slider'
+        ))
+        #TODO: randomize background, contrast and gamma
         form.Generate.click() #generate background
         form.Finish.click()
 
