@@ -137,7 +137,7 @@ class Generator():
             auto_id='1170', #horizontal translation
             control_type='Slider'
         ))
-        #TODO: apply
+        form.Apply.click()
         form.Next.click()
 
         #Step 10 - Background and contrast
