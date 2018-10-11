@@ -83,7 +83,7 @@ class Generator():
             auto_id='1104', #pressure/dryness
             control_type='Slider'
         ))
-        #TODO: apply
+        form.Apply.click()
         form.Next.click()
 
         #Step 7 - Fingerprint distortion
