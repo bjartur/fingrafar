@@ -29,16 +29,19 @@ class Generator():
             title='Fingerprint class',
             control_type='ComboBox'
         ) # now what?
-        slider = form.child_window(
+        self.randomize_slider(form.child_window(
             title='Direction perturbation',
             control_type='Slider'
-        )
-        self.randomize_slider(slider)
+        ))
         form.Generate.click() #generate random directional map
         form.Next.click()
 
         #Step 3 - Density map and ridge pattern generation
-        #TODO: randomize seeds, ridge density, and pores inclusion
+        self.randomize_slider(form.child_window(
+            title='Seeds',
+            control_type='Slider'
+        ))
+        #TODO: randomize ridge density, and pores inclusion
         form.Button5.click() #Start ridge generation
         form.Next.click()
 
