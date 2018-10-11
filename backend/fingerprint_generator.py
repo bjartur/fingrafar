@@ -41,7 +41,11 @@ class Generator():
             title='Seeds',
             control_type='Slider'
         ))
-        #TODO: randomize ridge density, and pores inclusion
+        self.randomize_slider(form.child_window(
+            auto_id='1112', #Ridge density
+            control_type='Slider'
+        ))
+        #TODO: randomize pores inclusion
         form.Button5.click() #Start ridge generation
         form.Next.click()
 
