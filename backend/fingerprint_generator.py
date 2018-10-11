@@ -104,7 +104,7 @@ class Generator():
             title='Skin Elasticity',
             control_type='Slider'
         ))
-        #TODO: apply
+        form.Apply.click()
         form.Next.click()
 
         #Step 8 - Noising and rendering
