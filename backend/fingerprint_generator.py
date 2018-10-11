@@ -50,7 +50,11 @@ class Generator():
             title='Seeds',
             control_type='Slider'
         ))
-        #TODO: randomize ridge density, and pores inclusion
+        self.randomize_slider(form.child_window(
+            auto_id='1112', #Ridge density
+            control_type='Slider'
+        ))
+        #TODO: randomize pores inclusion
         form.Button5.click() #Start ridge generation
         form.Next.click()
 
@@ -59,15 +63,32 @@ class Generator():
         form.Next.click()
 
         #Step 5 - Finger contact region
-        #TODO: randomize displacement and apply
+        self.randomize_slider(form.child_window(
+            title='Displacement',
+            auto_id='1171', #vertical displacement
+            control_type='Slider'
+        ))
+        self.randomize_slider(form.child_window(
+            auto_id='1170', #horizontal displacement
+            control_type='Slider'
+        ))
+        #TODO: apply
         form.Next.click()
 
         #Step 6 - Pressure/Dryness
-        #TODO: randomize pressure and apply
+        self.randomize_slider(form.child_window(
+            auto_id='1104', #pressure/dryness
+            control_type='Slider'
+        ))
+        #TODO: apply
         form.Next.click()
 
         #Step 7 - Fingerprint distortion
-        #TODO: randomize rotation, translation and skin elasticity and apply
+        self.randomize_slider(form.child_window(
+            title='Rotation',
+            control_type='Slider'
+        ))
+        #TODO: randomize translation and skin elasticity and apply
         form.Next.click()
 
         #Step 8 - Noising and rendering
