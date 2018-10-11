@@ -54,6 +54,11 @@ class Generator():
         form.Next.click()
 
         #Step 5 - Finger contact region
+        self.randomize_slider(form.child_window(
+            title='Displacement',
+            auto_id='1171', #vertical displacement
+            control_type='Slider'
+        ))
         #TODO: randomize displacement and apply
         form.Next.click()
 
