@@ -75,7 +75,11 @@ class Generator():
         form.Next.click()
 
         #Step 7 - Fingerprint distortion
-        #TODO: randomize rotation, translation and skin elasticity and apply
+        self.randomize_slider(form.child_window(
+            title='Rotation',
+            control_type='Slider'
+        ))
+        #TODO: randomize translation and skin elasticity and apply
         form.Next.click()
 
         #Step 8 - Noising and rendering
