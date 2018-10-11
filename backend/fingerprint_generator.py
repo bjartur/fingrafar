@@ -33,11 +33,10 @@ class Generator():
         form.Next.click()
 
         #Step 2 - Directional map generation
-        combobox = form.child_window(
+        self.randomize_combobox(form.child_window(
             title='Fingerprint class',
             control_type='ComboBox'
-        )
-        self.randomize_combobox(combobox, 5)
+        ), number_of_items=5)
         self.randomize_slider(form.child_window(
             title='Direction perturbation',
             control_type='Slider'
