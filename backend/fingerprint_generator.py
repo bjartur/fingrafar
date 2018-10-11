@@ -134,7 +134,11 @@ class Generator():
             auto_id='1171', #vertical translation
             control_type='Slider'
         ))
-        #TODO: randomize translation and apply
+        self.randomize_slider(form.child_window(
+            auto_id='1170', #horizontal translation
+            control_type='Slider'
+        ))
+        #TODO: apply
         form.Next.click()
 
         #Step 10 - Background and contrast
