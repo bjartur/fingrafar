@@ -125,6 +125,11 @@ class Generator():
         form.Next.click()
 
         #Step 9 - Fingerprint rotation and translation and apply
+        self.randomize_slider(form.child_window(
+            title='Rotation',
+            control_type='Slider'
+        ))
+        #TODO: randomize translation and apply
         form.Next.click()
 
         #Step 10 - Background and contrast
