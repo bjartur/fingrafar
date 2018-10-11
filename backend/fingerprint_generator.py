@@ -16,7 +16,7 @@ class Generator():
         combobox.Open.click()
         combobox.type_keys('{UP}' * 10) # start at the top
         combobox.type_keys('{DOWN}' * randrange(0, number_of_items))
-        combobox.Close.click()
+        #combobox.Close.click()
 
     def generate(self):
         app = Application(backend='uia').start('SFinGeDemo/SFinGe.exe')
@@ -37,7 +37,7 @@ class Generator():
             title='Fingerprint class',
             control_type='ComboBox'
         )
-        self.randomize_combox(combobox)
+        self.randomize_combobox(combobox, 5)
         self.randomize_slider(form.child_window(
             title='Direction perturbation',
             control_type='Slider'
