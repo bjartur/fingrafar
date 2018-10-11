@@ -74,7 +74,7 @@ class Generator():
             auto_id='1170', #horizontal displacement
             control_type='Slider'
         ))
-        #TODO: apply
+        form.Apply.click()
         form.Next.click()
 
         #Step 6 - Pressure/Dryness
