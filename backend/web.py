@@ -27,8 +27,11 @@ class Server(BaseHTTPRequestHandler):
         try:
             if self.path == '/':
                 self.index()
-            else:
+            elif self.path == '/fingerprint':
                 self.fingerprint()
+            else:
+                self.send_response(HTTPStatus.NOT_FOUND)
+                self.end_headers()
         except EnvironmentError:
             self.send_response(HTTPStatus.SERVICE_UNAVAILABLE)
 
