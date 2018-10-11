@@ -33,11 +33,10 @@ class Generator():
         form.Next.click()
 
         #Step 2 - Directional map generation
-        combobox = form.child_window(
+        self.randomize_combobox(form.child_window(
             title='Fingerprint class',
             control_type='ComboBox'
-        )
-        self.randomize_combobox(combobox, 5)
+        ), number_of_items=5)
         self.randomize_slider(form.child_window(
             title='Direction perturbation',
             control_type='Slider'
@@ -125,10 +124,39 @@ class Generator():
         form.Next.click()
 
         #Step 9 - Fingerprint rotation and translation and apply
+        self.randomize_slider(form.child_window(
+            title='Rotation',
+            control_type='Slider'
+        ))
+        self.randomize_slider(form.child_window(
+            title='Translation',
+            auto_id='1171', #vertical translation
+            control_type='Slider'
+        ))
+        self.randomize_slider(form.child_window(
+            auto_id='1170', #horizontal translation
+            control_type='Slider'
+        ))
+        #TODO: apply
         form.Next.click()
 
         #Step 10 - Background and contrast
-        #TODO: randomize background, noise, contrast and gamma
+        self.randomize_combobox(form.child_window(
+            title='Background',
+            control_type='ComboBox'
+        ), number_of_items=3)
+        self.randomize_slider(form.child_window(
+            title='Noise', #background noise
+            control_type='Slider'
+        ))
+        self.randomize_slider(form.child_window(
+            title='Contrast',
+            control_type='Slider'
+        ))
+        self.randomize_slider(form.child_window(
+            title='Gamma',
+            control_type='Slider'
+        ))
         form.Generate.click() #generate background
         form.Finish.click()
 
