@@ -117,7 +117,11 @@ class Generator():
             title='Valleys', #valley noise
             control_type='Slider'
         ))
-        #TODO: randomize scratches and render
+        self.randomize_slider(form.child_window(
+            title='Scratches',
+            control_type='Slider'
+        ))
+        #TODO: render
         form.Next.click()
 
         #Step 9 - Fingerprint rotation and translation and apply
