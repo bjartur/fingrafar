@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <title>Fingerprints</title>
-<img src="/fingerprint" id="fingerprinter">
+<img src="/fingerprint" id="fingerprinter" width="100%" height="100%" onclick="document.documentElement.requestFullscreen()">
         <script>
                 onload = recurse
                 function recurse() {
                                 setTimeout(function() {
                                         document.getElementById('fingerprinter').src = 'fingerprint'
                                         recurse()
-                                }, 5000)
+                                }, 15*1000)
                 }
         </script>
