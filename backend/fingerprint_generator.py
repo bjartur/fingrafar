@@ -120,7 +120,6 @@ class Generator():
             title='Scratches',
             control_type='Slider'
         ))
-        #TODO: render
         form.Next.click()
 
         #Step 9 - Fingerprint rotation and translation and apply
