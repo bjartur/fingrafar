@@ -59,7 +59,11 @@ class Generator():
             auto_id='1171', #vertical displacement
             control_type='Slider'
         ))
-        #TODO: randomize displacement and apply
+        self.randomize_slider(form.child_window(
+            auto_id='1170', #horizontal displacement
+            control_type='Slider'
+        ))
+        #TODO: apply
         form.Next.click()
 
         #Step 6 - Pressure/Dryness
