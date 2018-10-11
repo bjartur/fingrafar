@@ -28,7 +28,7 @@ class Generator():
         comboBox = form.child_window(
             title='Fingerprint class',
             control_type='ComboBox'
-        ) # now what?
+        ) #now what?
         self.randomize_slider(form.child_window(
             title='Direction perturbation',
             control_type='Slider'
@@ -67,7 +67,11 @@ class Generator():
         form.Next.click()
 
         #Step 6 - Pressure/Dryness
-        #TODO: randomize pressure and apply
+        self.randomize_slider(form.child_window(
+            auto_id='1104', #pressure/dryness
+            control_type='Slider'
+        ))
+        #TODO: apply
         form.Next.click()
 
         #Step 7 - Fingerprint distortion
