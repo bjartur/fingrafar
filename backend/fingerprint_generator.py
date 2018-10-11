@@ -29,6 +29,10 @@ class Generator():
 
         #Step 1 - Fingerprint mask generation
         form.Generate.click() #generate random mask
+        finger_selection = form.child_window(
+            auto_id='1024',
+            control_type='ComboBox'
+        )
         #TODO: always select thumb
         form.Next.click()
 
