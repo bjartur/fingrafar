@@ -105,6 +105,10 @@ class Generator():
         form.Next.click()
 
         #Step 8 - Noising and rendering
+        self.randomize_slider(form.child_window(
+            title='Ridges', #ridge noise
+            control_type='Slider'
+        ))
         #TODO: randomize ridges, valleys and scratches and render
         form.Next.click()
 
