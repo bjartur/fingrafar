@@ -150,7 +150,11 @@ class Generator():
             title='Contrast',
             control_type='Slider'
         ))
-        #TODO: randomize background and gamma
+        self.randomize_slider(form.child_window(
+            title='Gamma',
+            control_type='Slider'
+        ))
+        #TODO: randomize background
         form.Generate.click() #generate background
         form.Finish.click()
 
