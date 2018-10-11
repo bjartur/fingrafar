@@ -129,6 +129,11 @@ class Generator():
             title='Rotation',
             control_type='Slider'
         ))
+        self.randomize_slider(form.child_window(
+            title='Translation',
+            auto_id='1171', #vertical translation
+            control_type='Slider'
+        ))
         #TODO: randomize translation and apply
         form.Next.click()
 
