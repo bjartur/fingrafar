@@ -141,6 +141,10 @@ class Generator():
         form.Next.click()
 
         #Step 10 - Background and contrast
+        self.randomize_combobox(form.child_window(
+            title='Background',
+            control_type='ComboBox'
+        ), number_of_items=3)
         self.randomize_slider(form.child_window(
             title='Noise', #background noise
             control_type='Slider'
@@ -153,7 +157,6 @@ class Generator():
             title='Gamma',
             control_type='Slider'
         ))
-        #TODO: randomize background
         form.Generate.click() #generate background
         form.Finish.click()
 
