@@ -17,59 +17,58 @@ class Generator():
         #Open generation form
         main.Generate.click()
         main.Dialog.OK.click()
-        generation_form = main.Dialog
+        form = main.Dialog
 
         #Step 1 - Fingerprint mask generation
-        generation_form.Generate.click() #generate random mask
+        form.Generate.click() #generate random mask
         #TODO: randomize finger selection
-        generation_form.Next.click()
+        form.Next.click()
 
         #Step 2 - Directional map generation
-        comboBox = generation_form.child_window(
+        comboBox = form.child_window(
             title='Fingerprint class',
             control_type='ComboBox'
-        )
-        slider = generation_form.child_window(
+        ) # now what?
+        slider = form.child_window(
             title='Direction perturbation',
             control_type='Slider'
         )
         self.randomize_slider(slider)
-        generation_form.Generate.click() #generate random directional map
-        #TODO: consider randomizing fingerprint class selection
-        generation_form.Next.click()
+        form.Generate.click() #generate random directional map
+        form.Next.click()
 
         #Step 3 - Density map and ridge pattern generation
         #TODO: randomize seeds, ridge density, and pores inclusion
-        generation_form.Button5.click() #Start ridge generation
-        generation_form.Next.click()
+        form.Button5.click() #Start ridge generation
+        form.Next.click()
 
         #Step 4 - Permanent scratches
         #rendered automatically, so nothing we need to to here
-        generation_form.Next.click()
+        form.Next.click()
 
         #Step 5 - Finger contact region
         #TODO: randomize displacement and apply
-        generation_form.Next.click()
+        form.Next.click()
 
         #Step 6 - Pressure/Dryness
         #TODO: randomize pressure and apply
-        generation_form.Next.click()
+        form.Next.click()
 
         #Step 7 - Fingerprint distortion
         #TODO: randomize rotation, translation and skin elasticity and apply
-        generation_form.Next.click()
+        form.Next.click()
 
         #Step 8 - Noising and rendering
         #TODO: randomize ridges, valleys and scratches and render
-        generation_form.Next.click()
+        form.Next.click()
 
         #Step 9 - Fingerprint rotation and translation and apply
-        generation_form.Next.click()
+        form.Next.click()
 
         #Step 10 - Background and contrast
         #TODO: randomize background, noise, contrast and gamma
-        generation_form.Generate.click() #generate background
-        generation_form.Finish.click()
+        form.Generate.click() #generate background
+        form.Finish.click()
 
         #Save image to file
         full_path = mktemp('.bmp')
