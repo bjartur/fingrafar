@@ -80,6 +80,11 @@ class Generator():
             control_type='Slider'
         ))
         self.randomize_slider(form.child_window(
+            title='Translation',
+            auto_id='1171', #vertical translation
+            control_type='Slider'
+        ))
+        self.randomize_slider(form.child_window(
             title='Skin Elasticity',
             control_type='Slider'
         ))
