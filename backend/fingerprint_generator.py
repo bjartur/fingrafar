@@ -1,7 +1,9 @@
-from random import uniform
+from random import uniform, randrange
 from tempfile import mktemp
 from os import path, mkdir
 import time
+import ctypes
+from ctypes import wintypes
 
 from pywinauto import Application
 
@@ -9,6 +11,12 @@ class Generator():
 
     def randomize_slider(self, slider):
         slider.set_value(uniform(slider.min_value(), slider.max_value()))
+
+    def randomize_combobox(self, combobox, number_of_items):
+        combobox.Open.click()
+        combobox.type_keys('{UP}' * 10) # start at the top
+        combobox.type_keys('{DOWN}' * randrange(0, number_of_items))
+        combobox.Close.click()
 
     def generate(self):
         app = Application(backend='uia').start('SFinGeDemo/SFinGe.exe')
@@ -25,10 +33,11 @@ class Generator():
         form.Next.click()
 
         #Step 2 - Directional map generation
-        comboBox = form.child_window(
+        combobox = form.child_window(
             title='Fingerprint class',
             control_type='ComboBox'
-        ) # now what?
+        )
+        randomize_combox(combobox)
         self.randomize_slider(form.child_window(
             title='Direction perturbation',
             control_type='Slider'
