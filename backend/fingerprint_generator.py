@@ -37,7 +37,7 @@ class Generator():
             title='Fingerprint class',
             control_type='ComboBox'
         )
-        randomize_combox(combobox)
+        self.randomize_combox(combobox)
         self.randomize_slider(form.child_window(
             title='Direction perturbation',
             control_type='Slider'
