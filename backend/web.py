@@ -9,20 +9,21 @@ class Server(BaseHTTPRequestHandler):
 
     def fingerprint(self):
         with Generator().generate() as file:
-            self.send_response(HTTPStatus.OK)
-            self.send_header("Content-Type", 'image/x-windows-bmp')
-            self.send_header("Cache-Control", 'no-cache')
-            self.end_headers()
+            self.wfile.write(b'HTTP/1.0 200 OK\r\n')
+            self.wfile.write(b'Content-Type: image/x-windows-bmp\r\n')
+            self.wfile.write(b'Cache-Control: no-cache\r\n')
+            self.wfile.write(b'\r\n')
             shutil.copyfileobj(file, self.wfile)
 
     def index(self):
-        self.send_response(HTTPStatus.OK)
-        self.send_header("Content-Type", 'text/html; charset=US-ASCII')
-        self.send_header("Cache-Control", 'no-cache')
+        self.wfile.write(b"HTTP/1.0 200 OK\r\n")
+        self.wfile.write(b"Content-Type: text/html; charset=US-ASCII\r\n")
+        self.wfile.write(b"Cache-Control: no-cache\r\n")
+        self.wfile.write(b"\r\n")
         with open('../frontend/index.html', 'rb') as file:
             shutil.copyfileobj(file, self.wfile)
 
-                
+
     def do_GET(self):
         try:
             if self.path == '/':
@@ -33,7 +34,7 @@ class Server(BaseHTTPRequestHandler):
                 self.send_response(HTTPStatus.NOT_FOUND)
                 self.end_headers()
         except EnvironmentError:
-            self.send_response(HTTPStatus.SERVICE_UNAVAILABLE)
+            self.send_error(HTTPStatus.SERVICE_UNAVAILABLE)
 
 
 if __name__ == "__main__":
