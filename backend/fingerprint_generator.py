@@ -14,7 +14,7 @@ class Generator():
 
     def randomize_combobox(self, combobox, number_of_items):
         combobox.Open.click()
-        combobox.type_keys('{UP}' * 10) # start at the top
+        combobox.type_keys('{UP}' * 5) # start at the top
         combobox.type_keys('{DOWN}' * randrange(0, number_of_items))
         #combobox.Close.click()
 
