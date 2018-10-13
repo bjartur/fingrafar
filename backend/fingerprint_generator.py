@@ -29,10 +29,15 @@ class Generator():
 
         #Step 1 - Fingerprint mask generation
         form.Generate.click() #generate random mask
-        #TODO: randomize finger selection
+        finger_selection = form.child_window(
+            auto_id='1024',
+            control_type='ComboBox'
+        )
+        #TODO: always select thumb
         form.Next.click()
 
         #Step 2 - Directional map generation
+        #TODO: make fingerprint class distribution imitate real distribution among humans
         self.randomize_combobox(form.child_window(
             title='Fingerprint class',
             control_type='ComboBox'
@@ -62,24 +67,27 @@ class Generator():
         form.Next.click()
 
         #Step 5 - Finger contact region
+        #TODO: keep displacement close to 0, both vertical
         self.randomize_slider(form.child_window(
             title='Displacement',
             auto_id='1171', #vertical displacement
             control_type='Slider'
         ))
+        #TODO: and horizontal
         self.randomize_slider(form.child_window(
             auto_id='1170', #horizontal displacement
             control_type='Slider'
         ))
-        #TODO: apply
+        form.Apply.click()
         form.Next.click()
 
         #Step 6 - Pressure/Dryness
+        #TODO: avoid extreme pressure/dryness
         self.randomize_slider(form.child_window(
             auto_id='1104', #pressure/dryness
             control_type='Slider'
         ))
-        #TODO: apply
+        form.Apply.click()
         form.Next.click()
 
         #Step 7 - Fingerprint distortion
@@ -100,10 +108,11 @@ class Generator():
             title='Skin Elasticity',
             control_type='Slider'
         ))
-        #TODO: apply
+        form.Apply.click()
         form.Next.click()
 
         #Step 8 - Noising and rendering
+        #TODO: limit ridge noise to below 50%
         self.randomize_slider(form.child_window(
             title='Ridges', #ridge noise
             control_type='Slider'
@@ -120,39 +129,45 @@ class Generator():
             title='Scratches',
             control_type='Slider'
         ))
-        #TODO: render
         form.Next.click()
 
         #Step 9 - Fingerprint rotation and translation and apply
+        #TODO: make rotation alwasy 0
         self.randomize_slider(form.child_window(
             title='Rotation',
             control_type='Slider'
         ))
+        #TODO: make translation always 0, both vertical
         self.randomize_slider(form.child_window(
             title='Translation',
             auto_id='1171', #vertical translation
             control_type='Slider'
         ))
+        #TODO: and horizontal
         self.randomize_slider(form.child_window(
             auto_id='1170', #horizontal translation
             control_type='Slider'
         ))
-        #TODO: apply
+        form.Apply.click()
         form.Next.click()
 
         #Step 10 - Background and contrast
+        #TODO: select always Background='None'
         self.randomize_combobox(form.child_window(
             title='Background',
             control_type='ComboBox'
         ), number_of_items=3)
+        #TODO: skip background noise randomization
         self.randomize_slider(form.child_window(
             title='Noise', #background noise
             control_type='Slider'
         ))
+        #TODO: make contrast alwasy 0
         self.randomize_slider(form.child_window(
             title='Contrast',
             control_type='Slider'
         ))
+        #TODO: limit gamma to below 40%
         self.randomize_slider(form.child_window(
             title='Gamma',
             control_type='Slider'
