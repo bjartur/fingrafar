@@ -35,7 +35,7 @@ class Generator():
         combobox.Open.click()
         combobox.type_keys('{UP}' * 5)
         combobox.type_keys('{DOWN}' * \
-            class_positions[fingerprint_class.random()]
+            self.class_positions[fingerprint_class.random()]
         )
         
     def randomize_checkbox(self, checkbox):
