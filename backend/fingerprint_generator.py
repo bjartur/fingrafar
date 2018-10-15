@@ -180,11 +180,6 @@ class Generator():
             title='Background',
             control_type='ComboBox'
         ), number_of_items=3)
-        #TODO: skip background noise randomization
-        self.randomize_slider(form.child_window(
-            title='Noise', #background noise
-            control_type='Slider'
-        ))
         form.child_window(
             title='Contrast',
             control_type='Slider'
