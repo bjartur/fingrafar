@@ -164,11 +164,10 @@ class Generator():
             title='Noise', #background noise
             control_type='Slider'
         ))
-        #TODO: make contrast alwasy 0
-        self.randomize_slider(form.child_window(
+        form.child_window(
             title='Contrast',
             control_type='Slider'
-        ))
+        ).set_value(0)
         self.randomize_slider(form.child_window(
             title='Gamma',
             control_type='Slider'
