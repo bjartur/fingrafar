@@ -22,6 +22,12 @@ class Generator():
         combobox.type_keys('{DOWN}' * randrange(0, number_of_items))
         #combobox.Close.click()
 
+    def randomize_checkbox(self, checkbox):
+        current_state = checkbox.get_toggle_state()
+        value_to_set = randrange(0,2)
+        if value_to_set != current_state:
+            checkbox.toggle()
+
     def generate(self):
         app = Application(backend='uia').start('SFinGeDemo/SFinGe.exe')
         main = app.Dialog
@@ -62,7 +68,10 @@ class Generator():
             auto_id='1112', #Ridge density
             control_type='Slider'
         ))
-        #TODO: randomize pores inclusion
+        self.randomize_checkbox(form.child_window(
+            title='Add pores',
+            control_type='CheckBox'
+        ))
         form.Button5.click() #Start ridge generation
         form.Next.click()
 
