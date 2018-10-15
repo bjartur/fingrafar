@@ -18,7 +18,7 @@ class Generator():
         slider.set_value(uniform(min_val, max_val))
 
     def randomize_combobox(self, combobox, number_of_items):
-        self.select_combobox_top(combobox)
+        self.select_combobox_top(combobox, number_of_items)
         combobox.type_keys('{DOWN}' * randrange(0, number_of_items))
 
     class_positions = {
@@ -30,14 +30,14 @@ class Generator():
     }
 
     def randomize_fingerprint_class(self, combobox):
-        self.select_combobox_top(combobox)
+        self.select_combobox_top(combobox, 5)
         combobox.type_keys('{DOWN}' * \
             self.class_positions[fingerprint_class.random()]
         )
 
-    def select_combobox_top(self, combobox):
+    def select_combobox_top(self, combobox, number_of_items):
         combobox.Open.click()
-        combobox.type_keys('{UP}' * 5)
+        combobox.type_keys('{UP}' * (number_of_items-1))
 
     def randomize_checkbox(self, checkbox):
         current_state = checkbox.get_toggle_state()
@@ -58,7 +58,7 @@ class Generator():
         self.select_combobox_top(form.child_window(
             auto_id='1024',
             control_type='ComboBox'
-        )) #always select thumb
+        ), number_of_items=5) #always select thumb
         form.Generate.click() #generate random mask
         form.Next.click()
 
