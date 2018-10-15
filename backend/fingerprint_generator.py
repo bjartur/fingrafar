@@ -169,11 +169,10 @@ class Generator():
             title='Contrast',
             control_type='Slider'
         ))
-        #TODO: limit gamma to below 40%
         self.randomize_slider(form.child_window(
             title='Gamma',
             control_type='Slider'
-        ))
+        ), max_perc=40)
         form.Generate.click() #generate background
         form.Finish.click()
 
