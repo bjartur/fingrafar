@@ -71,17 +71,15 @@ class Generator():
         form.Next.click()
 
         #Step 5 - Finger contact region
-        #TODO: keep displacement close to 0, both vertical
         self.randomize_slider(form.child_window(
             title='Displacement',
             auto_id='1171', #vertical displacement
             control_type='Slider'
-        ))
-        #TODO: and horizontal
+        ), min_perc=40, max_perc=60)
         self.randomize_slider(form.child_window(
             auto_id='1170', #horizontal displacement
             control_type='Slider'
-        ))
+        ), min_perc=40, max_perc=60)
         form.Apply.click()
         form.Next.click()
 
