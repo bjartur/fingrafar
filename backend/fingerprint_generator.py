@@ -195,8 +195,6 @@ class Generator():
         directory = tempfile.gettempdir()
         filename = 'fingerprint.bmp'
         full_path = os.path.join(directory, filename)
-        if os.path.exists(full_path):
-            os.remove(full_path)
 
         main['Save image to file'].click()
         save_dialog = main.Dialog
@@ -206,7 +204,12 @@ class Generator():
         time.sleep(1)
         save_dialog.child_window(title="File name:", control_type="Edit")\
             .wait('visible').set_edit_text(filename)
+        already_existed = False
+        if os.path.exists(full_path):
+            already_existed = True
         save_dialog.Save.click()
+        if already_existed:
+            save_dialog.Dialog.Yes.wait('visible').click()
         time.sleep(1)
 
         #Close application
