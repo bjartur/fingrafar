@@ -115,11 +115,10 @@ class Generator():
         form.Next.click()
 
         #Step 8 - Noising and rendering
-        #TODO: limit ridge noise to below 50%
         self.randomize_slider(form.child_window(
             title='Ridges', #ridge noise
             control_type='Slider'
-        ))
+        ), max_perc=50)
         self.randomize_slider(form.child_window(
             title='Prominence', #ridge prominence
             control_type='Slider'
