@@ -1,14 +1,28 @@
 from http.server import *
 from http import HTTPStatus
 import shutil
+import time
+import os
 
 from fingerprint_generator import Generator
+import fingerprint_generator as sfinge
 
-directory = tempfile.gettempdir()
-filename = 'fingerprint.bmp'
-file_path = os.path.join(directory, filename)
+last_generation_started = 0.0
 
 class Server(BaseHTTPRequestHandler):
+
+    def generate_if_needed(self):
+        global last_generation_started
+        #now = time.time()
+        last_modified = os.path.getmtime(sfinge.file_path)
+        last_generation_finished = last_modified > last_generation_started
+        if last_generation_finished:
+            self.generate()
+
+    def generate(self):
+        global last_generation_started
+        last_generation_started = time.time()
+        Generator().generate()
 
     def fingerprint_headers(self):
         self.wfile.write(b'HTTP/1.0 200 OK\r\n')
@@ -17,10 +31,10 @@ class Server(BaseHTTPRequestHandler):
         self.wfile.write(b'\r\n')
 
     def fingerprint(self):
-        Generator().generate(file_path)
-        with open(file_path, 'rb') as file:
+        with open(sfinge.file_path, 'rb') as file:
             self.fingerprint_headers()
             shutil.copyfileobj(file, self.wfile)
+        self.generate_if_needed()
 
     def index_headers(self):
         self.wfile.write(b"HTTP/1.0 200 OK\r\n")
@@ -44,7 +58,11 @@ class Server(BaseHTTPRequestHandler):
             if self.path == '/':
                 index()
             elif self.path == '/fingerprint':
-                fingerprint()
+                if not os.path.exists(sfinge.file_path):
+                    self.send_error(HTTPStatus.SERVICE_UNAVAILABLE)
+                    self.end_headers()
+                    self.generate()
+                self.fingerprint()
             else:
                 self.send_response(HTTPStatus.NOT_FOUND)
                 self.end_headers()
@@ -53,4 +71,4 @@ class Server(BaseHTTPRequestHandler):
 
 
 if __name__ == "__main__":
-    HTTPServer(('', 80), Server).serve_forever()
+    ThreadingHTTPServer(('', 80), Server).serve_forever()
