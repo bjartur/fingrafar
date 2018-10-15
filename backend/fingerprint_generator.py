@@ -7,9 +7,12 @@ from ctypes import wintypes
 import fingerprint_class
 
 from pywinauto import Application
+directory = tempfile.gettempdir()
+filename = 'fingerprint.bmp'
+file_path = os.path.join(directory, filename)
+
 
 class Generator():
-
     def randomize_slider(self, slider, min_perc=0, max_perc=100):
         min_val = slider.min_value() \
             + min_perc/100.0*(slider.max_value() - slider.min_value())
@@ -192,10 +195,7 @@ class Generator():
         form.Finish.click()
 
         #Save image to file
-        directory = tempfile.gettempdir()
-        filename = 'fingerprint.bmp'
-        full_path = os.path.join(directory, filename)
-
+        global directory, filename, file_path
         main['Save image to file'].click()
         save_dialog = main.Dialog
         save_dialog.child_window(title="File name:", control_type="Edit")\
@@ -205,7 +205,7 @@ class Generator():
         save_dialog.child_window(title="File name:", control_type="Edit")\
             .wait('visible').set_edit_text(filename)
         already_existed = False
-        if os.path.exists(full_path):
+        if os.path.exists(file_path):
             already_existed = True
         save_dialog.Save.click()
         if already_existed:
@@ -214,9 +214,6 @@ class Generator():
 
         #Close application
         main.Exit.click()
-
-        #return file handle
-        return open(full_path, 'rb')
 
 if __name__ == '__main__':
     Generator().generate()

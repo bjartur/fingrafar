@@ -4,6 +4,9 @@ import shutil
 
 from fingerprint_generator import Generator
 
+directory = tempfile.gettempdir()
+filename = 'fingerprint.bmp'
+file_path = os.path.join(directory, filename)
 
 class Server(BaseHTTPRequestHandler):
 
@@ -14,7 +17,8 @@ class Server(BaseHTTPRequestHandler):
         self.wfile.write(b'\r\n')
 
     def fingerprint(self):
-        with Generator().generate() as file:
+        Generator().generate(file_path)
+        with open(file_path, 'rb') as file:
             self.fingerprint_headers()
             shutil.copyfileobj(file, self.wfile)
 
