@@ -86,11 +86,10 @@ class Generator():
         form.Next.click()
 
         #Step 6 - Pressure/Dryness
-        #TODO: avoid extreme pressure/dryness
         self.randomize_slider(form.child_window(
             auto_id='1104', #pressure/dryness
             control_type='Slider'
-        ))
+        ), min_perc=16, max_perc=84)
         form.Apply.click()
         form.Next.click()
 
