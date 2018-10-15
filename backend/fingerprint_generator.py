@@ -139,17 +139,17 @@ class Generator():
             title='Rotation',
             control_type='Slider'
         ))
-        #TODO: make translation always 0, both vertical
-        self.randomize_slider(form.child_window(
+        slider = form.child_window(
             title='Translation',
             auto_id='1171', #vertical translation
             control_type='Slider'
-        ))
-        #TODO: and horizontal
-        self.randomize_slider(form.child_window(
+        )
+        slider.set_value(0.5*(slider.min_value()+slider.max_value()))
+        slider = form.child_window(
             auto_id='1170', #horizontal translation
             control_type='Slider'
-        ))
+        )
+        slider.set_value(0.5*(slider.min_value()+slider.max_value()))
         form.Apply.click()
         form.Next.click()
 
