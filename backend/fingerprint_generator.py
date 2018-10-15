@@ -176,8 +176,7 @@ class Generator():
         form.Next.click()
 
         #Step 10 - Background and contrast
-        #TODO: select always Background='None'
-        self.randomize_combobox(form.child_window(
+        self.select_combobox_top(form.child_window(
             title='Background',
             control_type='ComboBox'
         ), number_of_items=3)
