@@ -55,12 +55,11 @@ class Generator():
         form = main.Dialog
 
         #Step 1 - Fingerprint mask generation
-        form.Generate.click() #generate random mask
-        finger_selection = form.child_window(
+        self.select_combobox_top(form.child_window(
             auto_id='1024',
             control_type='ComboBox'
-        )
-        #TODO: always select thumb
+        )) #always select thumb
+        form.Generate.click() #generate random mask
         form.Next.click()
 
         #Step 2 - Directional map generation
