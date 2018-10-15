@@ -17,12 +17,13 @@ class Server(BaseHTTPRequestHandler):
         last_modified = os.path.getmtime(sfinge.file_path)
         last_generation_finished = last_modified > last_generation_started
         if last_generation_finished:
-            self.generate()
+            self.generate_if_not_already_generating()
 
-    def generate(self):
+    def generate_if_not_already_generating(self):
         global last_generation_started
-        last_generation_started = time.time()
-        Generator().generate()
+        if time.time() - last_generation_started > 30:
+            last_generation_started = time.time()
+            Generator().generate()
 
     def fingerprint_headers(self):
         self.wfile.write(b'HTTP/1.0 200 OK\r\n')
@@ -61,7 +62,7 @@ class Server(BaseHTTPRequestHandler):
                 if not os.path.exists(sfinge.file_path):
                     self.send_error(HTTPStatus.SERVICE_UNAVAILABLE)
                     self.end_headers()
-                    self.generate()
+                    self.generate_if_not_already_generating()
                 self.fingerprint()
             else:
                 self.send_response(HTTPStatus.NOT_FOUND)
