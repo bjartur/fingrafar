@@ -134,11 +134,11 @@ class Generator():
         form.Next.click()
 
         #Step 9 - Fingerprint rotation and translation and apply
-        #TODO: make rotation alwasy 0
-        self.randomize_slider(form.child_window(
+        slider = form.child_window(
             title='Rotation',
             control_type='Slider'
-        ))
+        )
+        slider.set_value(0.5*(slider.min_value()+slider.max_value()))
         slider = form.child_window(
             title='Translation',
             auto_id='1171', #vertical translation
