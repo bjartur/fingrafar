@@ -18,10 +18,8 @@ class Generator():
         slider.set_value(uniform(min_val, max_val))
 
     def randomize_combobox(self, combobox, number_of_items):
-        combobox.Open.click()
-        combobox.type_keys('{UP}' * 5) # start at the top
+        self.select_combobox_top(combobox, number_of_items)
         combobox.type_keys('{DOWN}' * randrange(0, number_of_items))
-        #combobox.Close.click()
 
     class_positions = {
             "arch": 0
@@ -32,12 +30,15 @@ class Generator():
     }
 
     def randomize_fingerprint_class(self, combobox):
-        combobox.Open.click()
-        combobox.type_keys('{UP}' * 5)
+        self.select_combobox_top(combobox, 5)
         combobox.type_keys('{DOWN}' * \
             self.class_positions[fingerprint_class.random()]
         )
-        
+
+    def select_combobox_top(self, combobox, number_of_items):
+        combobox.Open.click()
+        combobox.type_keys('{UP}' * (number_of_items-1))
+
     def randomize_checkbox(self, checkbox):
         current_state = checkbox.get_toggle_state()
         value_to_set = randrange(0,2)
@@ -54,21 +55,18 @@ class Generator():
         form = main.Dialog
 
         #Step 1 - Fingerprint mask generation
-        form.Generate.click() #generate random mask
-        finger_selection = form.child_window(
+        self.select_combobox_top(form.child_window(
             auto_id='1024',
             control_type='ComboBox'
-        )
-        #TODO: always select thumb
+        ), number_of_items=5) #always select thumb
+        form.Generate.click() #generate random mask
         form.Next.click()
 
         #Step 2 - Directional map generation
-        self.randomize_fingerprint_class(
-            form.child_window(
-                title='Fingerprint class',
-                control_type='ComboBox'
-            )
-        )
+        self.randomize_fingerprint_class(form.child_window(
+            title='Fingerprint class',
+            control_type='ComboBox'
+        ))
         self.randomize_slider(form.child_window(
             title='Direction perturbation',
             control_type='Slider'
@@ -178,16 +176,10 @@ class Generator():
         form.Next.click()
 
         #Step 10 - Background and contrast
-        #TODO: select always Background='None'
-        self.randomize_combobox(form.child_window(
+        self.select_combobox_top(form.child_window(
             title='Background',
             control_type='ComboBox'
         ), number_of_items=3)
-        #TODO: skip background noise randomization
-        self.randomize_slider(form.child_window(
-            title='Noise', #background noise
-            control_type='Slider'
-        ))
         form.child_window(
             title='Contrast',
             control_type='Slider'
