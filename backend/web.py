@@ -22,7 +22,7 @@ class Server(BaseHTTPRequestHandler):
     # Before: file_path does not exist
     def generate_if_not_already_generating(self):
         global last_generation_started, slide_interval
-        if last_generation_started < 0.1:
+        if last_generation_started < 1:
             self.generate()
         elif time.time() - last_generation_started > 2*slide_interval:
             self.generate()
