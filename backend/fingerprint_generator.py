@@ -10,8 +10,12 @@ from pywinauto import Application
 
 class Generator():
 
-    def randomize_slider(self, slider):
-        slider.set_value(uniform(slider.min_value(), slider.max_value()))
+    def randomize_slider(self, slider, min_perc=0, max_perc=100):
+        min_val = slider.min_value() \
+            + min_perc/100.0*(slider.max_value() - slider.min_value())
+        max_val = slider.min_value() \
+            + max_perc/100.0*(slider.max_value() - slider.min_value())
+        slider.set_value(uniform(min_val, max_val))
 
     def randomize_combobox(self, combobox, number_of_items):
         combobox.Open.click()
@@ -34,6 +38,11 @@ class Generator():
             class_positions[fingerprint_class.random()]
         )
         
+    def randomize_checkbox(self, checkbox):
+        current_state = checkbox.get_toggle_state()
+        value_to_set = randrange(0,2)
+        if value_to_set != current_state:
+            checkbox.toggle()
 
     def generate(self):
         app = Application(backend='uia').start('SFinGeDemo/SFinGe.exe')
@@ -76,7 +85,10 @@ class Generator():
             auto_id='1112', #Ridge density
             control_type='Slider'
         ))
-        #TODO: randomize pores inclusion
+        self.randomize_checkbox(form.child_window(
+            title='Add pores',
+            control_type='CheckBox'
+        ))
         form.Button5.click() #Start ridge generation
         form.Next.click()
 
@@ -85,26 +97,23 @@ class Generator():
         form.Next.click()
 
         #Step 5 - Finger contact region
-        #TODO: keep displacement close to 0, both vertical
         self.randomize_slider(form.child_window(
             title='Displacement',
             auto_id='1171', #vertical displacement
             control_type='Slider'
-        ))
-        #TODO: and horizontal
+        ), min_perc=40, max_perc=60)
         self.randomize_slider(form.child_window(
             auto_id='1170', #horizontal displacement
             control_type='Slider'
-        ))
+        ), min_perc=40, max_perc=60)
         form.Apply.click()
         form.Next.click()
 
         #Step 6 - Pressure/Dryness
-        #TODO: avoid extreme pressure/dryness
         self.randomize_slider(form.child_window(
             auto_id='1104', #pressure/dryness
             control_type='Slider'
-        ))
+        ), min_perc=16, max_perc=84)
         form.Apply.click()
         form.Next.click()
 
@@ -130,11 +139,10 @@ class Generator():
         form.Next.click()
 
         #Step 8 - Noising and rendering
-        #TODO: limit ridge noise to below 50%
         self.randomize_slider(form.child_window(
             title='Ridges', #ridge noise
             control_type='Slider'
-        ))
+        ), max_perc=50)
         self.randomize_slider(form.child_window(
             title='Prominence', #ridge prominence
             control_type='Slider'
@@ -150,22 +158,22 @@ class Generator():
         form.Next.click()
 
         #Step 9 - Fingerprint rotation and translation and apply
-        #TODO: make rotation alwasy 0
-        self.randomize_slider(form.child_window(
+        slider = form.child_window(
             title='Rotation',
             control_type='Slider'
-        ))
-        #TODO: make translation always 0, both vertical
-        self.randomize_slider(form.child_window(
+        )
+        slider.set_value(0.5*(slider.min_value()+slider.max_value()))
+        slider = form.child_window(
             title='Translation',
             auto_id='1171', #vertical translation
             control_type='Slider'
-        ))
-        #TODO: and horizontal
-        self.randomize_slider(form.child_window(
+        )
+        slider.set_value(0.5*(slider.min_value()+slider.max_value()))
+        slider = form.child_window(
             auto_id='1170', #horizontal translation
             control_type='Slider'
-        ))
+        )
+        slider.set_value(0.5*(slider.min_value()+slider.max_value()))
         form.Apply.click()
         form.Next.click()
 
@@ -180,16 +188,14 @@ class Generator():
             title='Noise', #background noise
             control_type='Slider'
         ))
-        #TODO: make contrast alwasy 0
-        self.randomize_slider(form.child_window(
+        form.child_window(
             title='Contrast',
             control_type='Slider'
-        ))
-        #TODO: limit gamma to below 40%
+        ).set_value(0)
         self.randomize_slider(form.child_window(
             title='Gamma',
             control_type='Slider'
-        ))
+        ), max_perc=40)
         form.Generate.click() #generate background
         form.Finish.click()
 
