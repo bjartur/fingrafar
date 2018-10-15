@@ -1,6 +1,6 @@
 from random import uniform, randrange
-from tempfile import mktemp
-from os import path, mkdir
+import tempfile
+import os
 import time
 import ctypes
 from ctypes import wintypes
@@ -200,16 +200,16 @@ class Generator():
         form.Finish.click()
 
         #Save image to file
-        full_path = mktemp('.bmp')
-        directory, filename = path.split(full_path)
-        fg_tmp = path.join(directory, 'fingerprint_generator')
-        if not path.exists(fg_tmp):
-            mkdir(fg_tmp)
+        directory = tempfile.gettempdir()
+        filename = 'fingerprint.bmp'
+        full_path = os.path.join(directory, filename)
+        if os.path.exists(full_path):
+            os.remove(full_path)
 
         main['Save image to file'].click()
         save_dialog = main.Dialog
         save_dialog.child_window(title="File name:", control_type="Edit")\
-            .wait('visible').set_edit_text(fg_tmp)
+            .wait('visible').set_edit_text(directory)
         save_dialog.Save.click()
         time.sleep(1)
         save_dialog.child_window(title="File name:", control_type="Edit")\
@@ -221,7 +221,7 @@ class Generator():
         main.Exit.click()
 
         #return file handle
-        return open(path.join(fg_tmp, filename), 'rb')
+        return open(full_path, 'rb')
 
 if __name__ == '__main__':
     Generator().generate()
