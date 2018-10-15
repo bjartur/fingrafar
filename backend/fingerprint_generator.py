@@ -4,6 +4,7 @@ from os import path, mkdir
 import time
 import ctypes
 from ctypes import wintypes
+import fingerprint_class
 
 from pywinauto import Application
 
@@ -17,6 +18,22 @@ class Generator():
         combobox.type_keys('{UP}' * 5) # start at the top
         combobox.type_keys('{DOWN}' * randrange(0, number_of_items))
         #combobox.Close.click()
+
+    class_positions = {
+            "arch": 0
+           ,"left loop": 1
+           ,"right loop": 2
+           ,"whorl":3
+           ,"tented arch": 4
+    }
+
+    def randomize_fingerprint_class(self, combobox):
+        combobox.Open.click()
+        combobox.type_keys('{UP}' * 5)
+        combobox.type_keys('{DOWN}' * \
+            class_positions[fingerprint_class.random()]
+        )
+        
 
     def generate(self):
         app = Application(backend='uia').start('SFinGeDemo/SFinGe.exe')
@@ -37,11 +54,12 @@ class Generator():
         form.Next.click()
 
         #Step 2 - Directional map generation
-        #TODO: make fingerprint class distribution imitate real distribution among humans
-        self.randomize_combobox(form.child_window(
-            title='Fingerprint class',
-            control_type='ComboBox'
-        ), number_of_items=5)
+        self.randomize_fingerprint_class(
+            form.child_window(
+                title='Fingerprint class',
+                control_type='ComboBox'
+            )
+        )
         self.randomize_slider(form.child_window(
             title='Direction perturbation',
             control_type='Slider'
