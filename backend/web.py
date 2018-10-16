@@ -41,6 +41,8 @@ class Server(BaseHTTPRequestHandler):
         with open(sfinge.file_path, 'rb') as file:
             self.fingerprint_headers()
             shutil.copyfileobj(file, self.wfile)
+        self.wfile.flush()
+        self.rfile.close()
         self.generate_if_needed()
 
     def index_headers(self):
