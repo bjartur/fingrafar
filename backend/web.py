@@ -44,8 +44,20 @@ class Server(BaseHTTPRequestHandler):
 
     def fingerprint_headers(self):
         self.wfile.write(b'HTTP/1.0 200 OK\r\n')
+
         self.wfile.write(b'Content-Type: image/x-windows-bmp\r\n')
+
         self.wfile.write(b'Cache-Control: no-cache\r\n')
+        self.wfile.write(b"Cache: no-cache\r\n")
+        self.wfile.write(b"Pragma-Control: no-cache\r\n")
+        self.wfile.write(b"Cache-directive: no-cache\r\n")
+        self.wfile.write(b"Pragma-directive: no-cache\r\n")
+        self.wfile.write(b"Cache-Control: no-cache\r\n")
+        self.wfile.write(b"Pragma: no-cache\r\n")
+        self.wfile.write(b"Expires: 0\r\n")
+        self.wfile.write(b"Pragma-directive: no-cache\r\n")
+        self.wfile.write(b"Cache-directive: no-cache\r\n")
+
         self.wfile.write(b'\r\n')
 
     def fingerprint(self):
@@ -77,7 +89,7 @@ class Server(BaseHTTPRequestHandler):
         try:
             if self.path == '/':
                 index()
-            elif self.path == '/fingerprint':
+            elif self.path.startswith('/fingerprint'):
                 if not os.path.exists(sfinge.file_path):
                     self.send_error(HTTPStatus.SERVICE_UNAVAILABLE)
                     self.end_headers()
