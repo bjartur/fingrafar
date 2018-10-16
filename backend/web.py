@@ -69,7 +69,8 @@ class Server(BaseHTTPRequestHandler):
                     self.send_error(HTTPStatus.SERVICE_UNAVAILABLE)
                     self.end_headers()
                     self.generate_if_not_already_generating()
-                self.fingerprint()
+                else:
+                    self.fingerprint()
             else:
                 self.send_response(HTTPStatus.NOT_FOUND)
                 self.end_headers()
