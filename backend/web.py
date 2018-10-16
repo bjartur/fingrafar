@@ -10,6 +10,11 @@ import fingerprint_generator as sfinge
 last_generation_started = 0.0
 slide_interval = 15
 
+def generate():
+    global last_generation_started
+    last_generation_started = time.time()
+    Generator().generate()
+
 class Server(BaseHTTPRequestHandler):
 
     def generate_if_needed(self):
@@ -17,20 +22,15 @@ class Server(BaseHTTPRequestHandler):
         last_modified = os.path.getmtime(sfinge.file_path)
         if time.time() - last_generation_started >= slide_interval:
             if last_generation_started < last_modified:
-                self.generate()
+                generate()
 
     # Before: file_path does not exist
     def generate_if_not_already_generating(self):
         global last_generation_started, slide_interval
         if last_generation_started < 1:
-            self.generate()
+            generate()
         elif time.time() - last_generation_started > 2*slide_interval:
-            self.generate()
-
-    def generate(self):
-        global last_generation_started
-        last_generation_started = time.time()
-        Generator().generate()
+            generate()
 
     def fingerprint_headers(self):
         self.wfile.write(b'HTTP/1.0 200 OK\r\n')
@@ -83,5 +83,5 @@ class Server(BaseHTTPRequestHandler):
 
 if __name__ == "__main__":
     if not os.path.exists(sfinge.file_path):
-        self.generate()
+        generate()
     ThreadingHTTPServer(('', 80), Server).serve_forever()
