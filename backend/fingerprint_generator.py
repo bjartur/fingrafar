@@ -49,6 +49,8 @@ class Generator():
             checkbox.toggle()
 
     def generate(self):
+        start_time = time.time()
+
         app = Application(backend='uia').start('SFinGeDemo/SFinGe.exe')
         main = app.Dialog
 
@@ -214,6 +216,10 @@ class Generator():
 
         #Close application
         main.Exit.click()
+
+        end_time = time.time()
+        log = open('performance.log', 'a')
+        log.write(repr(end_time - start_time) + '\n')
 
 if __name__ == '__main__':
     Generator().generate()
