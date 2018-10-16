@@ -3,6 +3,7 @@ from http import HTTPStatus
 import shutil
 import time
 import os
+from pywinauto.findwindows import ElementNotFoundError
 
 from fingerprint_generator import Generator
 import fingerprint_generator as sfinge
@@ -12,10 +13,17 @@ slide_interval = 15
 
 def generate():
     global last_generation_started
-    last_generation_started = time.time()
-    Generator().generate()
+    try:
+        last_generation_started = time.time()
+        Generator().generate()
+    except ElementNotFoundError:
+        last_generation_started = 0.0
 
 class Server(BaseHTTPRequestHandler):
+
+    def generation_didnt_finish(arg):
+        global last_generation_started, slide_interval
+        return time.time() - last_generation_started >= 2*slide_interval
 
     def generate_if_needed(self):
         global last_generation_started, slide_interval
@@ -23,13 +31,15 @@ class Server(BaseHTTPRequestHandler):
         if time.time() - last_generation_started >= slide_interval:
             if last_generation_started < last_modified:
                 generate()
+            elif self.generation_didnt_finish():
+                generate()
 
     # Before: file_path does not exist
     def generate_if_not_already_generating(self):
         global last_generation_started, slide_interval
         if last_generation_started < 1:
             generate()
-        elif time.time() - last_generation_started > 2*slide_interval:
+        elif self.generation_didnt_finish():
             generate()
 
     def fingerprint_headers(self):
@@ -62,7 +72,7 @@ class Server(BaseHTTPRequestHandler):
 
     def do_GET(self):
         self.common(self.index, self.fingerprint)
-    
+
     def common(self, index, fingerprint):
         try:
             if self.path == '/':
