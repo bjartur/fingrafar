@@ -28,6 +28,7 @@ class Server(BaseHTTPRequestHandler):
             self.generate()
 
     def generate(self):
+        global last_generation_started
         last_generation_started = time.time()
         Generator().generate()
 
@@ -71,7 +72,8 @@ class Server(BaseHTTPRequestHandler):
                     self.send_error(HTTPStatus.SERVICE_UNAVAILABLE)
                     self.end_headers()
                     self.generate_if_not_already_generating()
-                self.fingerprint()
+                else:
+                    self.fingerprint()
             else:
                 self.send_response(HTTPStatus.NOT_FOUND)
                 self.end_headers()
@@ -80,4 +82,6 @@ class Server(BaseHTTPRequestHandler):
 
 
 if __name__ == "__main__":
+    if not os.path.exists(sfinge.file_path):
+        self.generate()
     ThreadingHTTPServer(('', 80), Server).serve_forever()
