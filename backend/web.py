@@ -12,11 +12,17 @@ slide_interval = 15
 
 class Server(BaseHTTPRequestHandler):
 
+    def generation_didnt_finish(arg):
+        global last_generation_started, slide_interval
+        return time.time() - last_generation_started >= 2*slide_interval
+
     def generate_if_needed(self):
         global last_generation_started, slide_interval
         last_modified = os.path.getmtime(sfinge.file_path)
         if time.time() - last_generation_started >= slide_interval:
             if last_generation_started < last_modified:
+                self.generate()
+            elif self.generation_didnt_finish():
                 self.generate()
 
     # Before: file_path does not exist
@@ -24,7 +30,7 @@ class Server(BaseHTTPRequestHandler):
         global last_generation_started, slide_interval
         if last_generation_started < 1:
             self.generate()
-        elif time.time() - last_generation_started > 2*slide_interval:
+        elif self.generation_didnt_finish():
             self.generate()
 
     def generate(self):
