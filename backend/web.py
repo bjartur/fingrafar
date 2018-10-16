@@ -11,6 +11,14 @@ import fingerprint_generator as sfinge
 last_generation_started = 0.0
 slide_interval = 15
 
+def generate():
+    global last_generation_started
+    try:
+        last_generation_started = time.time()
+        Generator().generate()
+    except ElementNotFoundError:
+        last_generation_started = 0.0
+
 class Server(BaseHTTPRequestHandler):
 
     def generation_didnt_finish(arg):
@@ -22,25 +30,17 @@ class Server(BaseHTTPRequestHandler):
         last_modified = os.path.getmtime(sfinge.file_path)
         if time.time() - last_generation_started >= slide_interval:
             if last_generation_started < last_modified:
-                self.generate()
+                generate()
             elif self.generation_didnt_finish():
-                self.generate()
+                generate()
 
     # Before: file_path does not exist
     def generate_if_not_already_generating(self):
         global last_generation_started, slide_interval
         if last_generation_started < 1:
-            self.generate()
+            generate()
         elif self.generation_didnt_finish():
-            self.generate()
-
-    def generate(self):
-        global last_generation_started
-        try:
-            last_generation_started = time.time()
-            Generator().generate()
-        except ElementNotFoundError:
-            last_generation_started = 0.0
+            generate()
 
     def fingerprint_headers(self):
         self.wfile.write(b'HTTP/1.0 200 OK\r\n')
@@ -52,6 +52,8 @@ class Server(BaseHTTPRequestHandler):
         with open(sfinge.file_path, 'rb') as file:
             self.fingerprint_headers()
             shutil.copyfileobj(file, self.wfile)
+        self.wfile.flush()
+        self.rfile.close()
         self.generate_if_needed()
 
     def index_headers(self):
@@ -70,7 +72,7 @@ class Server(BaseHTTPRequestHandler):
 
     def do_GET(self):
         self.common(self.index, self.fingerprint)
-    
+
     def common(self, index, fingerprint):
         try:
             if self.path == '/':
@@ -91,5 +93,5 @@ class Server(BaseHTTPRequestHandler):
 
 if __name__ == "__main__":
     if not os.path.exists(sfinge.file_path):
-        self.generate()
+        generate()
     ThreadingHTTPServer(('', 80), Server).serve_forever()
