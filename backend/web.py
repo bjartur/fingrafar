@@ -3,6 +3,7 @@ from http import HTTPStatus
 import shutil
 import time
 import os
+from pywinauto.findwindows import ElementNotFoundError
 
 from fingerprint_generator import Generator
 import fingerprint_generator as sfinge
@@ -35,8 +36,11 @@ class Server(BaseHTTPRequestHandler):
 
     def generate(self):
         global last_generation_started
-        last_generation_started = time.time()
-        Generator().generate()
+        try:
+            last_generation_started = time.time()
+            Generator().generate()
+        except ElementNotFoundError:
+            last_generation_started = 0.0
 
     def fingerprint_headers(self):
         self.wfile.write(b'HTTP/1.0 200 OK\r\n')
