@@ -28,6 +28,7 @@ class Server(BaseHTTPRequestHandler):
             self.generate()
 
     def generate(self):
+        global last_generation_started
         last_generation_started = time.time()
         Generator().generate()
 
