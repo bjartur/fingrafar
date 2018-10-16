@@ -79,4 +79,6 @@ class Server(BaseHTTPRequestHandler):
 
 
 if __name__ == "__main__":
+    if not os.path.exists(sfinge.file_path):
+        self.generate()
     ThreadingHTTPServer(('', 80), Server).serve_forever()
