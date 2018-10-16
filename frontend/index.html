@@ -30,21 +30,22 @@ img {
     transparent: 0.5,
     fadeIn: 5
   }
+  s = 1000
 
   onload = waitAndFadeOut
   function waitAndFadeOut() {
-    setTimeout(fadeOut, durations.opaque*1000)
+    setTimeout(fadeOut, durations.opaque*s)
   }
   function fadeOut() {
     document.getElementById('fingerprinter').className = 'transparent'
-    setTimeout(waitAndFadeIn, durations.fadeOut*1000)
+    setTimeout(waitAndFadeIn, durations.fadeOut*s)
   }
   function waitAndFadeIn() {
     document.getElementById('fingerprinter').src = '/fingerprint'
-    setTimeout(fadeIn, durations.transparent*1000)
+    setTimeout(fadeIn, durations.transparent*s)
   }
   function fadeIn() {
     document.getElementById('fingerprinter').className = 'opaque'
-    setTimeout(waitAndFadeOut, durations.fadeIn*1000)
+    setTimeout(waitAndFadeOut, durations.fadeIn*s)
   }
 </script>
