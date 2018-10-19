@@ -206,10 +206,8 @@ class Generator():
         save_dialog = main.Dialog
         save_dialog.type_keys(directory)
         save_dialog.type_keys('%s') #save_dialog.Save.click()
+        already_existed = os.path.exists(file_path)
         save_dialog.type_keys(filename)
-        already_existed = False
-        if os.path.exists(file_path):
-            already_existed = True
         save_dialog.type_keys('%s') #save_dialog.Save.click()
         if already_existed:
             save_dialog.Dialog.type_keys('%y') #save_dialog.Dialog.Yes.wait('visible').click()
