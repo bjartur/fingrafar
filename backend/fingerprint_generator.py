@@ -20,6 +20,9 @@ class Generator():
             + max_perc/100.0*(slider.max_value() - slider.min_value())
         slider.set_value(uniform(min_val, max_val))
 
+    def centralize_slider(self, slider):
+        slider.set_value(0.5*(slider.min_value()+slider.max_value()))
+
     def randomize_combobox(self, combobox, number_of_items):
         self.select_combobox_top(combobox, number_of_items)
         combobox.type_keys('{DOWN}' * randrange(0, number_of_items))
@@ -160,22 +163,19 @@ class Generator():
         form.type_keys('%n') #form.Next.click()
 
         #Step 9 - Fingerprint rotation and translation and apply
-        slider = form.child_window(
+        self.centralize_slider(form.child_window(
             title='Rotation',
             control_type='Slider'
-        )
-        slider.set_value(0.5*(slider.min_value()+slider.max_value()))
-        slider = form.child_window(
+        ))
+        self.centralize_slider(form.child_window(
             title='Translation',
             auto_id='1171', #vertical translation
             control_type='Slider'
-        )
-        slider.set_value(0.5*(slider.min_value()+slider.max_value()))
-        slider = form.child_window(
+        ))
+        self.centralize_slider(form.child_window(
             auto_id='1170', #horizontal translation
             control_type='Slider'
-        )
-        slider.set_value(0.5*(slider.min_value()+slider.max_value()))
+        ))
         form.type_keys('%a') #form.Apply.click()
         form.type_keys('%n') #form.Next.click()
 
