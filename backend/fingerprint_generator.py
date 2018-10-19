@@ -157,7 +157,7 @@ class Generator():
         ))
         form.type_keys('%n') #form.Next.click()
 
-        #Step 9 - Fingerprint rotation and translation and apply
+        #Step 9 - Fingerprint rotation and translation
         form.type_keys('%a') #form.Apply.click()
         form.type_keys('%n') #form.Next.click()
 
