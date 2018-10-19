@@ -55,7 +55,7 @@ class Generator():
 
         #Open generation form
         main.Generate.click()
-        main.Dialog.OK.click()
+        main.Dialog.type_keys('{ENTER}') #main.Dialog.OK.click()
         form = main.Dialog
 
         #Step 1 - Fingerprint mask generation
@@ -64,7 +64,7 @@ class Generator():
             control_type='ComboBox'
         ), number_of_items=5) #always select thumb
         form.Generate.click() #generate random mask
-        form.Next.click()
+        form.type_keys('%n') #form.Next.click()
 
         #Step 2 - Directional map generation
         self.randomize_fingerprint_class(form.child_window(
@@ -76,7 +76,7 @@ class Generator():
             control_type='Slider'
         ))
         form.Generate.click() #generate random directional map
-        form.Next.click()
+        form.type_keys('%n') #form.Next.click()
 
         #Step 3 - Density map and ridge pattern generation
         self.randomize_slider(form.child_window(
@@ -91,12 +91,12 @@ class Generator():
             title='Add pores',
             control_type='CheckBox'
         ))
-        form.Button5.click() #Start ridge generation
-        form.Next.click()
+        form.type_keys('%s') #Start ridge generation
+        form.type_keys('%n') #form.Next.click()
 
         #Step 4 - Permanent scratches
         #rendered automatically, so nothing we need to to here
-        form.Next.click()
+        form.type_keys('%n') #form.Next.click()
 
         #Step 5 - Finger contact region
         self.randomize_slider(form.child_window(
@@ -108,16 +108,16 @@ class Generator():
             auto_id='1170', #horizontal displacement
             control_type='Slider'
         ), min_perc=40, max_perc=60)
-        form.Apply.click()
-        form.Next.click()
+        form.type_keys('%a') #form.Apply.click()
+        form.type_keys('%n') #form.Next.click()
 
         #Step 6 - Pressure/Dryness
         self.randomize_slider(form.child_window(
             auto_id='1104', #pressure/dryness
             control_type='Slider'
         ), min_perc=16, max_perc=84)
-        form.Apply.click()
-        form.Next.click()
+        form.type_keys('%a') #form.Apply.click()
+        form.type_keys('%n') #form.Next.click()
 
         #Step 7 - Fingerprint distortion
         self.randomize_slider(form.child_window(
@@ -137,8 +137,8 @@ class Generator():
             title='Skin Elasticity',
             control_type='Slider'
         ))
-        form.Apply.click()
-        form.Next.click()
+        form.type_keys('%a') #form.Apply.click()
+        form.type_keys('%n') #form.Next.click()
 
         #Step 8 - Noising and rendering
         self.randomize_slider(form.child_window(
@@ -157,7 +157,7 @@ class Generator():
             title='Scratches',
             control_type='Slider'
         ))
-        form.Next.click()
+        form.type_keys('%n') #form.Next.click()
 
         #Step 9 - Fingerprint rotation and translation and apply
         slider = form.child_window(
@@ -176,8 +176,8 @@ class Generator():
             control_type='Slider'
         )
         slider.set_value(0.5*(slider.min_value()+slider.max_value()))
-        form.Apply.click()
-        form.Next.click()
+        form.type_keys('%a') #form.Apply.click()
+        form.type_keys('%n') #form.Next.click()
 
         #Step 10 - Background and contrast
         self.select_combobox_top(form.child_window(
@@ -193,7 +193,7 @@ class Generator():
             control_type='Slider'
         ), max_perc=40)
         form.Generate.click() #generate background
-        form.Finish.click()
+        form.type_keys('{ENTER}') #form.Finish.click()
 
         #Save image to file
         global directory, filename, file_path
