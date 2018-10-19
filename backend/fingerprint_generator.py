@@ -39,7 +39,6 @@ class Generator():
         )
 
     def select_combobox_top(self, combobox, number_of_items):
-        combobox.Open.click()
         combobox.type_keys('{UP}' * (number_of_items-1))
 
     def randomize_checkbox(self, checkbox):
