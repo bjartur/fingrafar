@@ -23,11 +23,6 @@ class Generator():
         #     + max_perc/100.0*(slider.max_value() - slider.min_value())
         # slider.set_value(uniform(min_val, max_val))
 
-    def centralize_slider(self, slider):
-        #we have confirmed that all sliders range from 0 to 100
-        slider.set_value(50)
-        #slider.set_value(0.5*(slider.min_value()+slider.max_value()))
-
     def randomize_combobox(self, combobox, number_of_items):
         self.select_combobox_top(combobox, number_of_items)
         combobox.type_keys('{DOWN}' * randrange(0, number_of_items))
@@ -168,19 +163,6 @@ class Generator():
         form.type_keys('%n') #form.Next.click()
 
         #Step 9 - Fingerprint rotation and translation and apply
-        self.centralize_slider(form.child_window(
-            title='Rotation',
-            control_type='Slider'
-        ))
-        self.centralize_slider(form.child_window(
-            title='Translation',
-            auto_id='1171', #vertical translation
-            control_type='Slider'
-        ))
-        self.centralize_slider(form.child_window(
-            auto_id='1170', #horizontal translation
-            control_type='Slider'
-        ))
         form.type_keys('%a') #form.Apply.click()
         form.type_keys('%n') #form.Next.click()
 
@@ -189,10 +171,6 @@ class Generator():
             title='Background',
             control_type='ComboBox'
         ), number_of_items=3)
-        form.child_window(
-            title='Contrast',
-            control_type='Slider'
-        ).set_value(0)
         self.randomize_slider(form.child_window(
             title='Gamma',
             control_type='Slider'
