@@ -170,7 +170,6 @@ class Generator():
             title='Gamma',
             control_type='Slider'
         ), max_perc=40)
-        form.Generate.click() #generate background
         form.type_keys('{ENTER}') #form.Finish.click()
 
         #Save image to file
