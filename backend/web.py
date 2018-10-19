@@ -71,7 +71,8 @@ class Server(BaseHTTPRequestHandler):
     def index_headers(self):
         self.wfile.write(b"HTTP/1.0 200 OK\r\n")
         self.wfile.write(b"Content-Type: text/html; charset=US-ASCII\r\n")
-        self.wfile.write(b"Cache-Control: no-cache\r\n")
+        self.wfile.write(b"Last-Modified: Fri, 19 Oct 2018 12:40:00 GMT\r\n")
+        self.wfile.write(b"Cache-Control: max-age=8640 public\r\n")
         self.wfile.write(b"\r\n")
 
     def index(self):
@@ -97,8 +98,12 @@ class Server(BaseHTTPRequestHandler):
                 else:
                     self.fingerprint()
             else:
-                self.send_response(HTTPStatus.NOT_FOUND)
-                self.end_headers()
+                self.wfile.write(b'HTTP/1.1 404 NOT FOUND\r\n')
+                self.wfile.write(b"Last-Modified: Fri, 19 Oct 2018 12:40:00 GMT\r\n")
+                self.wfile.write(b'Content-Length: 0\r\n')
+                self.wfile.write(b'Cache-Control: max-age=86400 public\r\n')
+                self.wfile.write(b'Connection: Close\r\n')
+                self.wfile.write(b'\r\n')
         except EnvironmentError:
             self.send_error(HTTPStatus.SERVICE_UNAVAILABLE)
 
@@ -106,4 +111,5 @@ class Server(BaseHTTPRequestHandler):
 if __name__ == "__main__":
     if not os.path.exists(sfinge.file_path):
         generate()
-    ThreadingHTTPServer(('', 80), Server).serve_forever()
+    ThreadingHTTPServer(('127.0.0.1', 8080), Server).serve_forever()
+    #ThreadingHTTPServer(('', 80), Server).serve_forever()
