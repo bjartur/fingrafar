@@ -204,19 +204,15 @@ class Generator():
         global directory, filename, file_path
         main['Save image to file'].click()
         save_dialog = main.Dialog
-        save_dialog.child_window(title="File name:", control_type="Edit")\
-            .wait('visible').set_edit_text(directory)
-        save_dialog.Save.click()
-        time.sleep(1)
-        save_dialog.child_window(title="File name:", control_type="Edit")\
-            .wait('visible').set_edit_text(filename)
+        save_dialog.type_keys(directory)
+        save_dialog.type_keys('%s') #save_dialog.Save.click()
+        save_dialog.type_keys(filename)
         already_existed = False
         if os.path.exists(file_path):
             already_existed = True
-        save_dialog.Save.click()
+        save_dialog.type_keys('%s') #save_dialog.Save.click()
         if already_existed:
-            save_dialog.Dialog.Yes.wait('visible').click()
-        time.sleep(1)
+            save_dialog.Dialog.type_keys('%y') #save_dialog.Dialog.Yes.wait('visible').click()
 
         #Close application
         main.Exit.click()
