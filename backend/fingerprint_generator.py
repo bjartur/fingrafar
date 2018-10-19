@@ -53,7 +53,7 @@ class Generator():
 
         #Open generation form
         main.Generate.click()
-        main.Dialog.wait('visible').type_keys('{ENTER}') #main.Dialog.OK.click()
+        main.Dialog.OK.click()
         form = main.Dialog
 
         #Step 1 - Fingerprint mask generation
