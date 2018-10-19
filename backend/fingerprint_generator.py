@@ -53,7 +53,7 @@ class Generator():
 
         #Open generation form
         main.Generate.click()
-        main.Dialog.type_keys('{ENTER}') #main.Dialog.OK.click()
+        main.Dialog.wait('visible').type_keys('{ENTER}') #main.Dialog.OK.click()
         form = main.Dialog
 
         #Step 1 - Fingerprint mask generation
@@ -157,7 +157,7 @@ class Generator():
         ))
         form.type_keys('%n') #form.Next.click()
 
-        #Step 9 - Fingerprint rotation and translation and apply
+        #Step 9 - Fingerprint rotation and translation
         form.type_keys('%a') #form.Apply.click()
         form.type_keys('%n') #form.Next.click()
 
@@ -170,7 +170,6 @@ class Generator():
             title='Gamma',
             control_type='Slider'
         ), max_perc=40)
-        form.Generate.click() #generate background
         form.type_keys('{ENTER}') #form.Finish.click()
 
         #Save image to file

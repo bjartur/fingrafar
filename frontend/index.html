@@ -4,7 +4,8 @@
   content="width=device-width, initial-scale=1, minimum-scale=1">
 <style>
 img {
-  transition: all 5s
+  transition: all 5s;
+  transition-timing-function: linear;
 }
 .transparent {
   opacity: 0
@@ -25,7 +26,7 @@ img {
 <img src="/fingerprint" id="fingerprinter" class="opaque">
 <script>
   const durations = {
-    opaque: 4.5,
+    opaque: 30,
     fadeOut: 5,
     transparent: 0.5,
     fadeIn: 5
