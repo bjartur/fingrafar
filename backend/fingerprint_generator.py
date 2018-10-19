@@ -13,15 +13,20 @@ file_path = os.path.join(directory, filename)
 
 
 class Generator():
+
     def randomize_slider(self, slider, min_perc=0, max_perc=100):
-        min_val = slider.min_value() \
-            + min_perc/100.0*(slider.max_value() - slider.min_value())
-        max_val = slider.min_value() \
-            + max_perc/100.0*(slider.max_value() - slider.min_value())
-        slider.set_value(uniform(min_val, max_val))
+        #we have confirmed that all sliders range from 0 to 100
+        slider.set_value(uniform(min_perc, max_perc))
+        # min_val = slider.min_value() \
+        #     + min_perc/100.0*(slider.max_value() - slider.min_value())
+        # max_val = slider.min_value() \
+        #     + max_perc/100.0*(slider.max_value() - slider.min_value())
+        # slider.set_value(uniform(min_val, max_val))
 
     def centralize_slider(self, slider):
-        slider.set_value(0.5*(slider.min_value()+slider.max_value()))
+        #we have confirmed that all sliders range from 0 to 100
+        slider.set_value(50)
+        #slider.set_value(0.5*(slider.min_value()+slider.max_value()))
 
     def randomize_combobox(self, combobox, number_of_items):
         self.select_combobox_top(combobox, number_of_items)
