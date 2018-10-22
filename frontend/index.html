@@ -19,10 +19,11 @@ img {
   left: 50%;
   --desired: 2.11cm;
   --width: var(--desired);
+  --height: calc(var(--width)*2.84/2.11);
   width: var(--width);
-  height: calc(var(--width)/2.11*2.84);
-  margin-top: calc(-1*var(--width)/2);
-  margin-left: calc(-1*var(--width)/2.11*2.84/2);
+  height: calc(var(--height));
+  margin-top: calc(-1/2*var(--width));
+  margin-left: calc(-1/2*var(--height));
 }
 @media only screen and (max-width: 900px) and (max-height: 900px)
 {
