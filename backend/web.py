@@ -72,7 +72,7 @@ class Server(BaseHTTPRequestHandler):
         self.wfile.write(b"HTTP/1.0 200 OK\r\n")
         self.wfile.write(b"Content-Type: text/html; charset=US-ASCII\r\n")
         self.wfile.write(b"Last-Modified: Fri, 19 Oct 2018 12:40:00 GMT\r\n")
-        self.wfile.write(b"Cache-Control: max-age=8640 public\r\n")
+        self.wfile.write(b"Cache-Control: no-cache\r\n")
         self.wfile.write(b"\r\n")
 
     def index(self):
@@ -102,7 +102,7 @@ class Server(BaseHTTPRequestHandler):
                 self.wfile.write(b"Last-Modified: Fri, 19 Oct 2018 12:40:00 GMT\r\n")
                 self.wfile.write(b'Content-Length: 11\r\n')
                 self.wfile.write(b'Content-Type: text/plain;charset=US-ASCII\r\n')
-                self.wfile.write(b'Cache-Control: max-age=864000 public\r\n')
+                self.wfile.write(b'Cache-Control: no-cache\r\n')
                 self.wfile.write(b'Connection: Close\r\n')
                 self.wfile.write(b'\r\n')
                 self.wfile.write(b'Not found\r\n')
