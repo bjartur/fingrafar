@@ -100,10 +100,12 @@ class Server(BaseHTTPRequestHandler):
             else:
                 self.wfile.write(b'HTTP/1.1 404 NOT FOUND\r\n')
                 self.wfile.write(b"Last-Modified: Fri, 19 Oct 2018 12:40:00 GMT\r\n")
-                self.wfile.write(b'Content-Length: 0\r\n')
+                self.wfile.write(b'Content-Length: 11\r\n')
+                self.wfile.write(b'Content-Type: text/plain;charset=US-ASCII\r\n')
                 self.wfile.write(b'Cache-Control: max-age=86400 public\r\n')
                 self.wfile.write(b'Connection: Close\r\n')
                 self.wfile.write(b'\r\n')
+                self.wfile.write(b'Not found\r\n')
         except EnvironmentError:
             self.send_error(HTTPStatus.SERVICE_UNAVAILABLE)
 
