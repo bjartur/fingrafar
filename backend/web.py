@@ -3,7 +3,11 @@ from http import HTTPStatus
 import shutil
 import time
 import os
+from _ctypes import COMError
+
 from pywinauto.findwindows import ElementNotFoundError
+from pywinauto.findbestmatch import MatchError
+from pywinauto.timings import TimeoutError
 
 from fingerprint_generator import Generator
 import fingerprint_generator as sfinge
@@ -16,7 +20,13 @@ def generate():
     try:
         last_generation_started = time.time()
         Generator().generate()
-    except ElementNotFoundError:
+    except (
+        ElementNotFoundError,
+        TypeError,
+        MatchError,
+        TimeoutError,
+        COMError
+    ):
         last_generation_started = 0.0
 
 class Server(BaseHTTPRequestHandler):
