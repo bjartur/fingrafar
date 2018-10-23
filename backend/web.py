@@ -13,7 +13,7 @@ from fingerprint_generator import Generator
 import fingerprint_generator as sfinge
 
 last_generation_started = 0.0
-slide_interval = 30
+slide_interval = 38
 
 def generate():
     global last_generation_started
