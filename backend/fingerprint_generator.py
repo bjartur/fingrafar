@@ -5,6 +5,7 @@ import time
 import ctypes
 from ctypes import wintypes
 import fingerprint_class
+import subprocess
 
 from pywinauto import Application
 directory = tempfile.gettempdir()
@@ -47,6 +48,8 @@ class Generator():
 
     def generate(self):
         start_time = time.time()
+
+        subprocess.run(["taskkill", "/f", "/im", "SFinGe.exe"])
 
         app = Application(backend='uia').start('SFinGeDemo/SFinGe.exe')
         main = app.Dialog
