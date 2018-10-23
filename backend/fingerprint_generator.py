@@ -49,7 +49,8 @@ class Generator():
     def generate(self):
         start_time = time.time()
 
-        subprocess.run(["taskkill", "/f", "/im", "SFinGe.exe"])
+        if 1 < len(pywinauto.findwindows.find_elements(title="SFinGe - Synthetic Fingerprint Generator - Demo Version")):
+            subprocess.run(["taskkill", "/f", "/im", "SFinGe.exe"])
 
         app = Application(backend='uia').start('SFinGeDemo/SFinGe.exe')
         main = app.Dialog
