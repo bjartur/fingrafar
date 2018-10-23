@@ -66,7 +66,8 @@ class Generator():
             control_type='ComboBox'
         ), number_of_items=5) #always select thumb
         form.Generate.click() #generate random mask
-        form.type_keys('%n') #form.Next.click()
+        #form.type_keys('%n')
+        form.Next.click()
 
         #Step 2 - Directional map generation
         self.randomize_fingerprint_class(form.child_window(
@@ -78,7 +79,8 @@ class Generator():
             control_type='Slider'
         ))
         form.Generate.click() #generate random directional map
-        form.type_keys('%n') #form.Next.click()
+        #form.type_keys('%n')
+        form.Next.click()
 
         #Step 3 - Density map and ridge pattern generation
         self.randomize_slider(form.child_window(
@@ -93,12 +95,15 @@ class Generator():
             title='Add pores',
             control_type='CheckBox'
         ))
-        form.type_keys('%s') #Start ridge generation
-        form.type_keys('%n') #form.Next.click()
+        #form.type_keys('%s') #Start ridge generation
+        #form.type_keys('%n') #form.Next.click()
+        form.Button5.click()
+        form.Next.click()
 
         #Step 4 - Permanent scratches
         #rendered automatically, so nothing we need to to here
-        form.type_keys('%n') #form.Next.click()
+        #form.type_keys('%n')
+        form.Next.click()
 
         #Step 5 - Finger contact region
         self.randomize_slider(form.child_window(
@@ -110,16 +115,20 @@ class Generator():
             auto_id='1170', #horizontal displacement
             control_type='Slider'
         ), min_perc=40, max_perc=60)
-        form.type_keys('%a') #form.Apply.click()
-        form.type_keys('%n') #form.Next.click()
+        #form.type_keys('%a')
+        form.Apply.click()
+        #form.type_keys('%n')
+        form.Next.click()
 
         #Step 6 - Pressure/Dryness
         self.randomize_slider(form.child_window(
             auto_id='1104', #pressure/dryness
             control_type='Slider'
         ), min_perc=16, max_perc=84)
-        form.type_keys('%a') #form.Apply.click()
-        form.type_keys('%n') #form.Next.click()
+        #form.type_keys('%a')
+        form.Apply.click()
+        #form.type_keys('%n')
+        form.Next.click()
 
         #Step 7 - Fingerprint distortion
         self.randomize_slider(form.child_window(
@@ -139,8 +148,10 @@ class Generator():
             title='Skin Elasticity',
             control_type='Slider'
         ))
-        form.type_keys('%a') #form.Apply.click()
-        form.type_keys('%n') #form.Next.click()
+        #form.type_keys('%a')
+        form.Apply.click()
+        #form.type_keys('%n')
+        form.Next.click()
 
         #Step 8 - Noising and rendering
         self.randomize_slider(form.child_window(
@@ -159,11 +170,14 @@ class Generator():
             title='Scratches',
             control_type='Slider'
         ))
-        form.type_keys('%n') #form.Next.click()
+        #form.type_keys('%n')
+        form.Next.click()
 
         #Step 9 - Fingerprint rotation and translation
-        form.type_keys('%a') #form.Apply.click()
-        form.type_keys('%n') #form.Next.click()
+        #form.type_keys('%a')
+        form.Apply.click()
+        #form.type_keys('%n')
+        form.Next.click()
 
         #Step 10 - Background and contrast
         self.select_combobox_top(form.child_window(
@@ -174,19 +188,30 @@ class Generator():
             title='Gamma',
             control_type='Slider'
         ), max_perc=40)
-        form.type_keys('{ENTER}') #form.Finish.click()
+        #form.Generate.click()
+        #form.type_keys('{ENTER}')
+        form.Finish.click()
 
         #Save image to file
         global directory, filename, file_path
         main['Save image to file'].click()
         save_dialog = main.Dialog
-        save_dialog.type_keys(directory)
-        save_dialog.type_keys('%s') #save_dialog.Save.click()
+        #save_dialog.type_keys(directory)
+        save_dialog.child_window(title='File name:', control_type='Edit')\
+            .wait('visible').set_edit_text(directory)
+        #save_dialog.type_keys('%s')
+        save_dialog.Save.click()
+        time.sleep(1)
         already_existed = os.path.exists(file_path)
-        save_dialog.type_keys(filename)
-        save_dialog.type_keys('%s') #save_dialog.Save.click()
+        #save_dialog.type_keys(filename)
+        save_dialog.child_window(title='File name:', control_type='Edit')\
+            .wait('visible').set_edit_text(filename)
+        #save_dialog.type_keys('%s')
+        save_dialog.Save.click()
         if already_existed:
-            save_dialog.Dialog.type_keys('%y') #yes
+            #save_dialog.Dialog.type_keys('%y') #yes
+            save_dialog.Dialog.Yes.wait('visible').click()
+        time.sleep(1)
 
         #Close application
         main.Exit.click()
