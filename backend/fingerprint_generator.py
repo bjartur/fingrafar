@@ -7,7 +7,7 @@ from ctypes import wintypes
 import fingerprint_class
 import subprocess
 
-from pywinauto import Application
+from pywinauto import Application, findwindows
 directory = tempfile.gettempdir()
 filename = 'fingerprint.bmp'
 file_path = os.path.join(directory, filename)
@@ -49,7 +49,7 @@ class Generator():
     def generate(self):
         start_time = time.time()
 
-        if 1 < len(pywinauto.findwindows.find_elements(title="SFinGe - Synthetic Fingerprint Generator - Demo Version")):
+        if 1 < len(findwindows.find_elements(title="SFinGe - Synthetic Fingerprint Generator - Demo Version")):
             subprocess.run(["taskkill", "/f", "/im", "SFinGe.exe"])
 
         app = Application(backend='uia').start('SFinGeDemo/SFinGe.exe')
