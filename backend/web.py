@@ -26,8 +26,10 @@ def generate():
         MatchError,
         TimeoutError,
         COMError
-    ):
+    ) as e:
         last_generation_started = 0.0
+        Generator().familicide()
+        print(e)
 
 class Server(BaseHTTPRequestHandler):
 
