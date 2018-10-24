@@ -13,7 +13,7 @@ from fingerprint_generator import Generator
 import fingerprint_generator as sfinge
 
 last_generation_started = 0.0
-slide_interval = 30
+slide_interval = 55
 
 def generate():
     global last_generation_started
@@ -33,7 +33,7 @@ class Server(BaseHTTPRequestHandler):
 
     def generation_didnt_finish(arg):
         global last_generation_started, slide_interval
-        return time.time() - last_generation_started >= 2*slide_interval
+        return time.time() - last_generation_started > 1.3 * slide_interval
 
     def generate_if_needed(self):
         global last_generation_started, slide_interval
