@@ -30,6 +30,7 @@ def generate():
     ) as e:
         last_generation_started = 0.0
         Generator().familicide()
+        print(type(e))
         print(e)
 
 class Server(BaseHTTPRequestHandler):
