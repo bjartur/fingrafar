@@ -63,9 +63,9 @@ class Generator():
 
         #Open generation form
         self.location = "Main opened"
-        main.Generate.click()
+        main.Generate.wait('enabled').click()
         self.location = "Size dialog opened"
-        main.Dialog.OK.click()
+        main.Dialog.OK.wait('enabled').click()
         form = main.Dialog
 
         #Step 1 - Fingerprint mask generation
