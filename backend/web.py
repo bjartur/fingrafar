@@ -19,7 +19,8 @@ def generate():
     global last_generation_started
     try:
         last_generation_started = time.time()
-        Generator().generate()
+        gen = Generator()
+        gen.generate()
     except (
         AttributeError,
         ElementNotFoundError,
@@ -29,7 +30,7 @@ def generate():
         COMError
     ) as e:
         last_generation_started = 0.0
-        Generator().familicide()
+        gen.familicide()
         print(type(e))
         print(e)
 
