@@ -186,7 +186,7 @@ class Generator():
         self.select_combobox_top(form.child_window(
             title='Background',
             control_type='ComboBox'
-        ), number_of_items=3)
+        ), number_of_items=11)
         self.randomize_slider(form.child_window(
             title='Gamma',
             control_type='Slider'
