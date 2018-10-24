@@ -21,6 +21,7 @@ def generate():
         last_generation_started = time.time()
         Generator().generate()
     except (
+        AttributeError,
         ElementNotFoundError,
         TypeError,
         MatchError,
