@@ -231,7 +231,7 @@ class Generator():
             title='Gamma',
             control_type='Slider'
         ), max_perc=40)
-        self.location = "Step 10 - Background set to no background"
+        self.location = "Step 10 - Gamma selected"
         #form.Generate.click()
         #form.type_keys('{ENTER}')
         form.Finish.click()
