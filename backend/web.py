@@ -21,13 +21,17 @@ def generate():
         last_generation_started = time.time()
         Generator().generate()
     except (
+        AttributeError,
         ElementNotFoundError,
         TypeError,
         MatchError,
         TimeoutError,
         COMError
-    ):
+    ) as e:
         last_generation_started = 0.0
+        Generator().familicide()
+        print(type(e))
+        print(e)
 
 class Server(BaseHTTPRequestHandler):
 

@@ -46,11 +46,14 @@ class Generator():
         if value_to_set != current_state:
             checkbox.toggle()
 
+    def familicide(self):
+        subprocess.run(["taskkill", "/f", "/im", "SFinGe.exe"])
+
     def generate(self):
         start_time = time.time()
 
         if 1 < len(findwindows.find_elements(title="SFinGe - Synthetic Fingerprint Generator - Demo Version")):
-            subprocess.run(["taskkill", "/f", "/im", "SFinGe.exe"])
+            self.familicide()
 
         app = Application(backend='uia').start('SFinGeDemo/SFinGe.exe')
         main = app.Dialog
