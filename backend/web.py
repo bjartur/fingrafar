@@ -1,5 +1,6 @@
 from http.server import *
 from http import HTTPStatus
+import itertools
 import shutil
 import time
 import os
@@ -8,6 +9,7 @@ from _ctypes import COMError
 from pywinauto.findwindows import ElementNotFoundError
 from pywinauto.findbestmatch import MatchError
 from pywinauto.timings import TimeoutError
+from PIL import Image
 
 from fingerprint_generator import Generator
 import fingerprint_generator as sfinge
@@ -35,6 +37,18 @@ def generate():
         print(type(e))
         print(gen.location)
         print(e)
+    finally:
+        fingerprint = Image.open(sfinge.file_path)
+        corners = itertools.product((0,fingerprint.width-1), (0, fingerprint.height-1))
+        pixels = fingerprint.load()
+
+        def is_dark(corner):
+            return pixels[corner] < 250
+
+        if all(is_dark(corner) for corner in corners):
+            print("Dark background detected, regenerating fingerprint...")
+            #generate()
+
 
 class Server(BaseHTTPRequestHandler):
 
