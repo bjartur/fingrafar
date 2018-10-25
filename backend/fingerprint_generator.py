@@ -52,8 +52,6 @@ class Generator():
         subprocess.run(["taskkill", "/f", "/im", "SFinGe.exe"])
 
     def generate(self):
-        start_time = time.time()
-
         if 1 < len(findwindows.find_elements(title="SFinGe - Synthetic Fingerprint Generator - Demo Version")):
             self.familicide()
 
@@ -268,10 +266,6 @@ class Generator():
         #Close application
         self.location = "Back in main again"
         main.Exit.click()
-
-        end_time = time.time()
-        log = open('performance.log', 'a')
-        log.write(repr(end_time - start_time) + '\n')
 
 if __name__ == '__main__':
     Generator().generate()

@@ -16,13 +16,14 @@ from fingerprint_generator import Generator
 import fingerprint_generator as sfinge
 
 last_generation_started = 0.0
+last_generation_finished = 0.0
 slide_interval = 55
 image = b''
 
 def generate():
-    global last_generation_started
+    global last_generation_started, last_generation_finished
+    last_generation_started = time.time()
     try:
-        last_generation_started = time.time()
         gen = Generator()
         gen.generate()
     except (
@@ -54,8 +55,11 @@ def generate():
                 regenerate = True
         if regenerate:
             generate()
-        else:
-            load_current_fingerprint()
+    load_current_fingerprint()
+    last_generation_finished = time.time()
+    with open('performance.txt', 'a') as log:
+        log.write(str(last_generation_finished - last_generation_started) + '\n')
+
 
 def load_current_fingerprint():
     global image
@@ -69,10 +73,9 @@ class Server(BaseHTTPRequestHandler):
         return time.time() - last_generation_started > 1.3 * slide_interval
 
     def generate_if_needed(self):
-        global last_generation_started, slide_interval
-        last_modified = os.path.getmtime(sfinge.file_path)
+        global last_generation_started, last_generation_finished, slide_interval
         if time.time() - last_generation_started >= slide_interval:
-            if last_generation_started < last_modified:
+            if last_generation_started < last_generation_finished:
                 generate()
             elif self.generation_didnt_finish():
                 generate()
