@@ -10,7 +10,7 @@ from _ctypes import COMError
 from pywinauto.findwindows import ElementNotFoundError
 from pywinauto.findbestmatch import MatchError
 from pywinauto.timings import TimeoutError
-from PIL import Image
+from PIL import Image, ImageOps
 
 from fingerprint_generator import Generator
 import fingerprint_generator as sfinge
@@ -41,9 +41,10 @@ def generate_if_not_already_generating(self):
         generate()
 
 def generate(retries=0):
-    global last_generation_started, last_generation_finished
+    global last_generation_started, last_generation_finished, image
     this_started = time.time()
     last_generation_started = this_started
+    regenerate = False
     try:
         gen = Generator()
         gen.generate()
@@ -65,8 +66,8 @@ def generate(retries=0):
         if retries < 2:
             generate_if_needed(retries+1)
     finally:
-        regenerate = False
-        with Image.open(sfinge.file_path) as fingerprint:
+        with open(sfinge.file_path, 'r+b') as f:
+            fingerprint = Image.open(f)
             corners = itertools.product((0,fingerprint.width-1), (0, fingerprint.height-1))
             pixels = fingerprint.load()
 
@@ -76,9 +77,12 @@ def generate(retries=0):
             if all(is_dark(corner) for corner in corners):
                 print("Dark background detected, regenerating fingerprint...")
                 regenerate = True
-        if regenerate:
-            generate()
-    load_current_fingerprint()
+                f.seek(0);f.write(image);f.seek(0)
+                ImageOps.mirror(Image.open(f)).save(sfinge.file_path, 'bmp')
+                f.seek(0);image = f.read()
+                
+    if regenerate:
+        generate(retries+1)
     last_generation_finished = time.time()
     with open('performance.txt', 'a') as log:
         log.write(str(last_generation_finished - last_generation_started) + '\n')
@@ -86,8 +90,8 @@ def generate(retries=0):
 
 def load_current_fingerprint():
     global image
-    with open(sfinge.file_path, 'rb') as file:
-        image = file.read()
+    with open(sfinge.file_path, 'rb') as f:
+        image = f.read()
 
 class Server(BaseHTTPRequestHandler):
 
