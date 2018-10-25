@@ -63,7 +63,8 @@ def generate(retries=0):
                 f.seek(0);f.write(image);f.seek(0)
                 ImageOps.mirror(Image.open(f)).save(sfinge.file_path, 'bmp')
 
-            f.seek(0);image = f.read()
+            if not regenerate or not image == b'':
+                f.seek(0);image = f.read()
 
     except (
         AttributeError,
