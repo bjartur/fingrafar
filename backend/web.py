@@ -64,7 +64,9 @@ def generate(retries=0):
                         f.write(image);f.seek(0)
                         ImageOps.mirror(Image.open(f)).save(sfinge.file_path, 'bmp')
 
-            if not regenerate or not image == b'':
+            if regenerate and image == b'' and os.path.exists(sfinge.file_path):
+                os.remove(sfinge.file_path)
+            else:
                 with open(sfinge.file_path, 'rb') as f:
                     image = f.read()
 
@@ -159,7 +161,7 @@ class Server(BaseHTTPRequestHandler):
                     self.rfile.close()
                     generate_if_needed()
                     return
-                if not os.path.exists(sfinge.file_path):
+                if image == b'':
                     self.send_error(HTTPStatus.SERVICE_UNAVAILABLE)
                     self.end_headers()
                     generate_if_not_already_generating()
