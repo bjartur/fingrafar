@@ -20,9 +20,30 @@ last_generation_finished = 0.0
 slide_interval = 55
 image = b''
 
-def generate():
+
+def generate_if_needed(retries=0):
+    global last_generation_started, last_generation_finished, slide_interval
+    if time.time() - last_generation_started >= slide_interval:
+        if last_generation_started < last_generation_finished:
+            generate(retries)
+        elif generation_didnt_finish():
+            generate(retries)
+
+def generation_didnt_finish():
+    global last_generation_started, slide_interval
+    return time.time() - last_generation_started > 1.8 * slide_interval
+
+def generate_if_not_already_generating(self):
+    global last_generation_started, slide_interval
+    if last_generation_started < 1:
+        generate()
+    elif generation_didnt_finish():
+        generate()
+
+def generate(retries=0):
     global last_generation_started, last_generation_finished
-    last_generation_started = time.time()
+    this_started = time.time()
+    last_generation_started = this_started
     try:
         gen = Generator()
         gen.generate()
@@ -41,6 +62,8 @@ def generate():
         print(type(e))
         print(gen.location)
         print(e)
+        if retries < 2:
+            generate_if_needed(retries+1)
     finally:
         regenerate = False
         with Image.open(sfinge.file_path) as fingerprint:
@@ -68,25 +91,6 @@ def load_current_fingerprint():
 
 class Server(BaseHTTPRequestHandler):
 
-    def generation_didnt_finish(arg):
-        global last_generation_started, slide_interval
-        return time.time() - last_generation_started > 1.3 * slide_interval
-
-    def generate_if_needed(self):
-        global last_generation_started, last_generation_finished, slide_interval
-        if time.time() - last_generation_started >= slide_interval:
-            if last_generation_started < last_generation_finished:
-                generate()
-            elif self.generation_didnt_finish():
-                generate()
-
-    # Before: file_path does not exist
-    def generate_if_not_already_generating(self):
-        global last_generation_started, slide_interval
-        if last_generation_started < 1:
-            generate()
-        elif self.generation_didnt_finish():
-            generate()
 
     def fingerprint_headers(self):
         self.wfile.write(b'HTTP/1.0 200 OK\r\n')
@@ -111,7 +115,7 @@ class Server(BaseHTTPRequestHandler):
         self.wfile.write(image)
         self.wfile.flush()
         self.rfile.close()
-        self.generate_if_needed()
+        generate_if_needed()
 
     def index_headers(self):
         self.wfile.write(b"HTTP/1.0 200 OK\r\n")
@@ -139,7 +143,7 @@ class Server(BaseHTTPRequestHandler):
                 if not os.path.exists(sfinge.file_path):
                     self.send_error(HTTPStatus.SERVICE_UNAVAILABLE)
                     self.end_headers()
-                    self.generate_if_not_already_generating()
+                    generate_if_not_already_generating()
                 else:
                     self.fingerprint()
             else:
