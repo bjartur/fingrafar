@@ -3,6 +3,7 @@ from http import HTTPStatus
 import itertools
 import shutil
 import time
+from datetime import datetime
 import os
 from _ctypes import COMError
 
@@ -34,6 +35,7 @@ def generate():
         last_generation_started = 0.0
         gen.familicide()
         print()
+        print(datetime.now())
         print(type(e))
         print(gen.location)
         print(e)
