@@ -76,13 +76,15 @@ img {
 </style>
 <img src="/fingerprint" id="fingerprinter" class="opaque">
 <script>
-  const durations = {
+  durations = {
     opaque: 55,
     fadeOut: 5,
     transparent: 0.5,
     fadeIn: 5
   }
   s = 1000
+
+  fingerprintGeneration = 0
 
   if(navigator.userAgent.indexOf('Mac OS X') != -1){
     document.getElementById('fingerprinter').width = '2.4cm';
@@ -93,7 +95,23 @@ img {
 
   onload = waitAndFadeOut
   function waitAndFadeOut() {
-    setTimeout(fadeOut, durations.opaque*s)
+    http = new XMLHttpRequest()
+    http.onreadystatechange = function() {
+      if(this.readyState >= 3 && this.status == 200) {
+        console.log(0.0 + http.responseText + fingerprintGeneration)
+        if(0.0 + http.responseText > fingerprintGeneration) {
+          fingerprintGeneration = 0.0 + http.responseText
+          fadeOut()
+        }
+        if(this.readyState == 4) {
+          setTimeout(function() {
+            waitAndFadeOut()
+          }, 4*s)
+        }
+      }
+    }
+    http.open('GET', '/fingerprint;id')
+    http.send();
   }
   function fadeOut() {
     document.getElementById('fingerprinter').className = 'transparent'
