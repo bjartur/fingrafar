@@ -49,9 +49,8 @@ def generate(retries=0):
         gen = Generator()
         gen.generate()
 
-        with open(sfinge.file_path, 'rb') as f:
-            fingerprint = Image.open(f)
-            corners = itertools.product((0,fingerprint.width-1), (0, fingerprint.height-1))
+        with Image.open(sfinge.file_path) as fingerprint:
+            corners = itertools.product((0,fingerprint.width-1), (0,fingerprint.height-1))
             pixels = fingerprint.load()
 
             def is_dark(corner):
@@ -60,11 +59,14 @@ def generate(retries=0):
             if all(is_dark(corner) for corner in corners):
                 print("Dark background detected, regenerating fingerprint...")
                 regenerate = True
-                f.seek(0);f.write(image);f.seek(0)
-                ImageOps.mirror(Image.open(f)).save(sfinge.file_path, 'bmp')
+                if image != b'':
+                    with open(sfinge.file_path, 'r+b') as f:
+                        f.write(image);f.seek(0)
+                        ImageOps.mirror(Image.open(f)).save(sfinge.file_path, 'bmp')
 
             if not regenerate or not image == b'':
-                f.seek(0);image = f.read()
+                with open(sfinge.file_path, 'rb') as f:
+                    image = f.read()
 
     except (
         AttributeError,
