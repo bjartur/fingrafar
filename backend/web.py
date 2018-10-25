@@ -94,6 +94,8 @@ def load_current_fingerprint():
     global image
     with open(sfinge.file_path, 'rb') as f:
         image = f.read()
+        last_generation_started = time.time() - 9999
+        last_generation_finished = time.time() - 444
 
 class Server(BaseHTTPRequestHandler):
 
