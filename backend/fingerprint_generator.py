@@ -225,7 +225,6 @@ class Generator():
             control_type='ComboBox'
         ), number_of_items=11)
         self.location = "Step 10 - Background set to no background"
-        print(self.location)
         self.randomize_slider(form.child_window(
             title='Gamma',
             control_type='Slider'
