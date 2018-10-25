@@ -109,7 +109,7 @@ img {
           fingerprintGeneration = incomingFingerprintGeneration
           then()
         }
-        else {
+        else if(this.readyState == 4) {
           setTimeout(wait, 4*s)
         }
       }
