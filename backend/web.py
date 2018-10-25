@@ -91,7 +91,7 @@ def generate(retries=0):
 
 
 def load_current_fingerprint():
-    global image
+    global image, last_generation_started, last_generation_finished
     with open(sfinge.file_path, 'rb') as f:
         image = f.read()
         last_generation_started = time.time() - 9999
