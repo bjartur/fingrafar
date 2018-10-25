@@ -102,11 +102,6 @@ img {
           fingerprintGeneration = 0.0 + http.responseText
           fadeOut()
         }
-        if(this.readyState == 4) {
-          setTimeout(function() {
-            waitAndFadeOut()
-          }, 4*s)
-        }
       }
     }
     http.open('GET', '/fingerprint;id')
