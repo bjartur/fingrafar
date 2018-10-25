@@ -83,7 +83,7 @@ def generate(retries=0):
         if retries < 2:
             generate_if_needed(retries+1)
                 
-    if regenerate:
+    if regenerate and retries < 2:
         generate(retries+1)
     last_generation_finished = time.time()
     with open('performance.txt', 'a') as log:
