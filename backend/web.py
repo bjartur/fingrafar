@@ -17,6 +17,7 @@ import fingerprint_generator as sfinge
 
 last_generation_started = 0.0
 slide_interval = 55
+image = b''
 
 def generate():
     global last_generation_started
@@ -53,7 +54,13 @@ def generate():
                 regenerate = True
         if regenerate:
             generate()
+        else:
+            load_current_fingerprint()
 
+def load_current_fingerprint():
+    global image
+    with open(sfinge.file_path, 'rb') as file:
+        image = file.read()
 
 class Server(BaseHTTPRequestHandler):
 
@@ -97,9 +104,8 @@ class Server(BaseHTTPRequestHandler):
         self.wfile.write(b'\r\n')
 
     def fingerprint(self):
-        with open(sfinge.file_path, 'rb') as file:
-            self.fingerprint_headers()
-            shutil.copyfileobj(file, self.wfile)
+        self.fingerprint_headers()
+        self.wfile.write(image)
         self.wfile.flush()
         self.rfile.close()
         self.generate_if_needed()
@@ -149,5 +155,6 @@ class Server(BaseHTTPRequestHandler):
 if __name__ == "__main__":
     if not os.path.exists(sfinge.file_path):
         generate()
+    load_current_fingerprint()
     ThreadingHTTPServer(('127.0.0.1', 8080), Server).serve_forever()
     #ThreadingHTTPServer(('', 80), Server).serve_forever()
