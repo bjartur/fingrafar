@@ -92,9 +92,14 @@ img {
     document.getElementById('fingerprinter').style.marginTop = '-1.5715m';
   }
 
-  onload = poll(fadeIn)
-  waitAndFadeOut = poll(fadeOut)
-  function poll(then) {
+  onload = pollAndFadeIn
+  function pollAndFadeIn() {
+    poll(pollAndFadeIn, fadeIn)
+  }
+  function waitAndFadeOut() {
+        poll(waitAndFadeOut, fadeOut)
+  }
+  function poll(wait, then) {
     http = new XMLHttpRequest()
     http.onreadystatechange = function() {
       if(this.readyState >= 3 && this.status == 200) {
@@ -103,6 +108,9 @@ img {
         if(incomingFingerprintGeneration > fingerprintGeneration) {
           fingerprintGeneration = incomingFingerprintGeneration
           then()
+        }
+        else {
+          setTimeout(wait, 4*s)
         }
       }
     }
