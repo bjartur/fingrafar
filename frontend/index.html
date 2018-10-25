@@ -98,9 +98,10 @@ img {
     http = new XMLHttpRequest()
     http.onreadystatechange = function() {
       if(this.readyState >= 3 && this.status == 200) {
-        console.log(0.0 + http.responseText + fingerprintGeneration)
-        if(0.0 + http.responseText > fingerprintGeneration) {
-          fingerprintGeneration = 0.0 + http.responseText
+        console.log(http.responseText + " - - " + fingerprintGeneration)
+        incomingFingerprintGeneration = parseFloat(http.responseText)
+        if(incomingFingerprintGeneration > fingerprintGeneration) {
+          fingerprintGeneration = incomingFingerprintGeneration
           then()
         }
       }
