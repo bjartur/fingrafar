@@ -49,7 +49,7 @@ def generate():
 
         if all(is_dark(corner) for corner in corners):
             print("Dark background detected, regenerating fingerprint...")
-            #generate()
+            generate()
 
 
 class Server(BaseHTTPRequestHandler):
