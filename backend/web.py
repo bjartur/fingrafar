@@ -17,7 +17,7 @@ import fingerprint_generator as sfinge
 
 last_generation_started = 0.0
 last_generation_finished = 0.0
-slide_interval = 55
+slide_interval = 30
 image = b''
 
 
@@ -31,7 +31,7 @@ def generate_if_needed(retries=0):
 
 def generation_didnt_finish():
     global last_generation_started, slide_interval
-    return time.time() - last_generation_started > 1.8 * slide_interval
+    return time.time() - last_generation_started > 4 * slide_interval
 
 def generate_if_not_already_generating(self):
     global last_generation_started, slide_interval
