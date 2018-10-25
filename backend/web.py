@@ -144,6 +144,14 @@ class Server(BaseHTTPRequestHandler):
             if self.path == '/':
                 index()
             elif self.path.startswith('/fingerprint'):
+                if self.path.endswith(';id'):
+                    self.wfile.write(b'HTTP/1.0 200 OK\r\nContent-Type: application/json\r\nCache-Control: no-cache\r\n\r\n'\
+                        + str(last_generation_finished).encode('ascii')
+                    )
+                    self.wfile.flush()
+                    self.rfile.close()
+                    generate_if_needed()
+                    return
                 if not os.path.exists(sfinge.file_path):
                     self.send_error(HTTPStatus.SERVICE_UNAVAILABLE)
                     self.end_headers()
