@@ -40,15 +40,18 @@ def generate():
         print(gen.location)
         print(e)
     finally:
-        fingerprint = Image.open(sfinge.file_path)
-        corners = itertools.product((0,fingerprint.width-1), (0, fingerprint.height-1))
-        pixels = fingerprint.load()
+        regenerate = False
+        with Image.open(sfinge.file_path) as fingerprint:
+            corners = itertools.product((0,fingerprint.width-1), (0, fingerprint.height-1))
+            pixels = fingerprint.load()
 
-        def is_dark(corner):
-            return pixels[corner] < 250
+            def is_dark(corner):
+                return pixels[corner] < 250
 
-        if all(is_dark(corner) for corner in corners):
-            print("Dark background detected, regenerating fingerprint...")
+            if all(is_dark(corner) for corner in corners):
+                print("Dark background detected, regenerating fingerprint...")
+                regenerate = True
+        if regenerate:
             generate()
 
 
