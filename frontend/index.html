@@ -105,16 +105,21 @@ img {
     http = new XMLHttpRequest()
     http.onreadystatechange = function() {
       if(this.readyState >= 3 && this.status == 200) {
-        console.log(http.responseText + " - - " + fingerprintGeneration)
-        incomingFingerprintGeneration = parseFloat(http.responseText)
+        console.log(this.responseText + " - - " + fingerprintGeneration)
+        incomingFingerprintGeneration = parseFloat(this.responseText)
         if(incomingFingerprintGeneration > fingerprintGeneration) {
           fingerprintGeneration = incomingFingerprintGeneration
           then()
         }
         else if(this.readyState == 4) {
+          this.onreadystatechange = this.onerror = null;
           setTimeout(wait, 4*s)
         }
       }
+    }
+    http.onerror = function() {
+      this.onreadystatechange = this.onerror = null;
+      setTimeout(wait, 4*s)
     }
     http.open('GET', '/fingerprint;id')
     http.send();
