@@ -59,16 +59,19 @@ def generate(retries=0):
             if all(is_dark(corner) for corner in corners):
                 print("Dark background detected, regenerating fingerprint...")
                 regenerate = True
-                if image != b'':
-                    with open(sfinge.file_path, 'r+b') as f:
-                        f.write(image);f.seek(0)
-                        ImageOps.mirror(Image.open(f)).save(sfinge.file_path, 'bmp')
 
-            if regenerate and image == b'' and os.path.exists(sfinge.file_path):
-                os.remove(sfinge.file_path)
+        if regenerate:
+            if image == b'':
+                if os.path.exists(sfinge.file_path):
+                    os.remove(sfinge.file_path)
             else:
-                with open(sfinge.file_path, 'rb') as f:
-                    image = f.read()
+                with open(sfinge.file_path + ".old", 'w+b') as f:
+                    f.write(image)
+                with Image.open(sfinge.file_path + ".old") as fingerprint:
+                    ImageOps.mirror(fingerprint).save(sfinge.file_path)
+
+        with open(sfinge.file_path, "rb") as f:
+            image = f.read()
 
     except (
         AttributeError,
@@ -76,7 +79,8 @@ def generate(retries=0):
         TypeError,
         MatchError,
         TimeoutError,
-        COMError
+        COMError,
+        FileNotFoundError
     ) as e:
         last_generation_started = 0.0
         gen.familicide()
