@@ -75,9 +75,7 @@ def generate(retries=0):
                 with Image.open(sfinge.file_path + ".old") as fingerprint:
                     ImageOps.mirror(fingerprint).save(sfinge.file_path)
 
-        if regenerate and image == b'':
-            os.remove(sfinge.file_path)
-        else:
+        if os.path.exists(sfinge.file_path):
             with open(sfinge.file_path, 'rb') as f:
                 image = f.read()
 
