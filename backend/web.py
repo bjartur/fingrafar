@@ -40,25 +40,30 @@ def generate_if_not_already_generating(self):
     elif generation_didnt_finish():
         generate()
 
+def is_file_dark():
+    global image
+    with Image.open(sfinge.file_path) as fingerprint:
+        corners = itertools.product((0,fingerprint.width-1), (0,fingerprint.height-1))
+        pixels = fingerprint.load()
+
+        def is_dark(corner):
+            return pixels[corner] < 250
+
+        if all(is_dark(corner) for corner in corners):
+            print("Dark background detected")
+            return True
+    return False
+
 def generate(retries=0):
     global last_generation_started, last_generation_finished, image
     this_started = time.time()
     last_generation_started = this_started
-    regenerate = False
+    regenerate = None
     try:
         gen = Generator()
         gen.generate()
 
-        with Image.open(sfinge.file_path) as fingerprint:
-            corners = itertools.product((0,fingerprint.width-1), (0,fingerprint.height-1))
-            pixels = fingerprint.load()
-
-            def is_dark(corner):
-                return pixels[corner] < 250
-
-            if all(is_dark(corner) for corner in corners):
-                print("Dark background detected, regenerating fingerprint...")
-                regenerate = True
+        regenerate = is_file_dark()
 
         if regenerate:
             if image == b'':
@@ -70,8 +75,11 @@ def generate(retries=0):
                 with Image.open(sfinge.file_path + ".old") as fingerprint:
                     ImageOps.mirror(fingerprint).save(sfinge.file_path)
 
-        with open(sfinge.file_path, "rb") as f:
-            image = f.read()
+        if regenerate and image == b'':
+            os.remove(sfinge.file_path)
+        else:
+            with open(sfinge.file_path, 'rb') as f:
+                image = f.read()
 
     except (
         AttributeError,
@@ -101,6 +109,8 @@ def generate(retries=0):
 
 def load_current_fingerprint():
     global image, last_generation_started, last_generation_finished
+    if is_file_dark():
+        generate()
     with open(sfinge.file_path, 'rb') as f:
         image = f.read()
         last_generation_started = time.time() - 9999
