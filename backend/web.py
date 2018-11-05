@@ -89,7 +89,8 @@ def generate(retries=0):
         FileNotFoundError
     ) as e:
         last_generation_started = 0.0
-        gen.familicide()
+        if not isinstance(e, TimeoutError):
+            gen.familicide()
         print()
         print(datetime.now())
         print(type(e))
